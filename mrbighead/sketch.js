@@ -14,7 +14,7 @@ function setup() {
   var i=0;
   var y=0;
   faces.push(new Face(200,140));
-  img = loadImage('image.PNG');
+  img = loadImage('image.png');
 }
 
 let turn="";
