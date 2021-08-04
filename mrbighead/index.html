@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Twitch Chat -->
+	<script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+	    <script src="p5.js"></script>
+    <script src="p5.dom.min.js"></script>
+    <meta charset="utf-8">
+  </head>
+<body style="width:100%;">
+	  <div id="msg1">Message</div>
+	  <br>
+	    <textarea style="position:absolute;top:0;left:65%;width:30%; height:80%;" id="text1"></textarea>
+	  <audio id="myAudio">
+  <source src="audio/speech (1).mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+      <script style="position:absolute; top:40px; left:10px;" src="sketch.js"></script>
+ <script type="text/javascript">
+    var prevSaying="";
+	var chatAuth="";
+	var streamId="jimfyyc";
+	streamId='jimfyyc';
+	var tmp="";
+	function checkTextareaHeight(){
+		var textarea = document.getElementById("text1");
+		if(textarea.selectionStart == textarea.selectionEnd) {
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+	}
+	function appendChatMessage(msg) {
+	    tmp=document.getElementById("text1").value;
+		document.getElementById("text1").value=tmp+msg+"\n";
+		checkTextareaHeight();
+		checkTextareaHeight();
+	} 
+      ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+		appendChatMessage(user+":!"+command+" "+message);
+		checkTextareaHeight();
+		if(command=='mbh1') {
+		  playSaying('1');
+		}
+		if(command=='mbh') {
+		    var tmp=message;
+			var camelItems=tmp.split(" ");
+			tmp=tmp.toLowerCase();
+			var items=tmp.split(" ");
+			var numItems=items.length;
+			appendChatMessage(JSON.stringify(items)+" "+numItems);
+			if(numItems==1) {
+			  var cmd=items[0];
+			  if(cmd=='rnd') {playSaying('rnd');}
+			  if(cmd=='say') {playSaying('rnd');}
+			}
+			if(numItems==2) {
+			  var cmd=items[0];
+			  if(cmd=='say') {
+			    var tmp1=items[1];
+				var theCmds="yes|no|xwins|owins|1|2|3|4|5|6|7|8|9|0|greetings|";
+				var isCmd=theCmds.indexOf(tmp1+"|");
+				if(tmp1=="rnd") {
+					playSaying('rnd');
+				}
+				if(tmp1=='greetings') {
+					playSaying('1');
+				}
+			    if(isCmd>-1) {
+				  playAudio(items[1]);
+				}
+			  }
+			}
+		}
+	  prevSaying=command;
+	  var theDate=new Date();
+	  tmp=command+" "+message;
+	  var msgItems=tmp.split(" ");
+	  var jimBotSays="** JimBot Says -->" ;
+	  var msg="";
+	  var lowerUserName=user.toLowerCase();
+		if(lowerUserName=="jimfyyc") {
+		}
+	} // onCommand
+		
+      ComfyJS.onChat = ( user, message, flags, self, extra ) => {
+	    var msgTemp="";
+		msgTemp+=user+":";
+		msgTemp+=message+" ";
+		// msgTemp+=JSON.stringify(flags)+" "+JSON.stringify(self)+" "+JSON.stringify(extra);
+		appendChatMessage(msgTemp);
+		if(message=='1') {playAudio(message);doTurn(1);}
+		if(message=='2') {playAudio(message);doTurn(2);}
+		if(message=='3') {playAudio(message);doTurn(3);}
+		if(message=='4') {playAudio(message);doTurn(4);}
+		if(message=='5') {playAudio(message);doTurn(5);}
+		if(message=='6') {playAudio(message);doTurn(6);}
+		if(message=='7') {playAudio(message);doTurn(7);}
+		if(message=='8') {playAudio(message);doTurn(8);}
+		if(message=='9') {playAudio(message);doTurn(9);}
+		if(message=='0') {playAudio(message);resetGame();}
+		checkTextareaHeight();
+      }// onChat
+	  
+      ComfyJS.Init(streamId);
+
+var isPlaying=0;
+var sayings=0;
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function playSaying(theItem) {
+	if(myAudio.currentTime>=myAudio.duration) {isPlaying=0;}
+	if(isPlaying==1) {return;}
+    if(theItem=='rnd') {
+	  theItem=getRandomInt(25)+1;
+	  theItem=str(theItem);
+	}
+	if (prevSaying=="") {theItem="1";}
+	prevSaying=theItem;
+	var x = document.getElementById("myAudio");
+	x.src="audio/speech" +" ("+theItem+").mp3";
+	x.play();
+	isPlaying=1;
+}
+
+function playAudio(theItem) {
+	if(myAudio.currentTime>=myAudio.duration) {isPlaying=0;}
+	if(isPlaying==1) {return;}
+	playAudio1(theItem);
+	isPlaying=1;
+}
+ 
+function playAudio1(theItem) {
+var x = document.getElementById("myAudio");
+		x.src="gameVoice/"+theItem+".mp3";
+		x.play();
+}
+ 
+</script>
+<div style="position:absolute; top:400px; left:10px;">
+	  <button id="playAudio" onClick="playSaying('rnd');">Random</button></br>
+	  <button id="playAudio" onClick="playSaying('1');">Greetings</button></br>
+	  <button onClick="playSaying('1');">1</button>
+	  <button onClick="playSaying('2');">2</button>
+	  <button onClick="playSaying('3');">3</button>
+	  <button onClick="playSaying('4');">4</button>
+	  <button onClick="playSaying('5');">5</button>
+	  <button onClick="playSaying('6');">6</button>
+	  <button onClick="playSaying('7');">7</button>
+	  <button onClick="playSaying('8');">8</button>
+	  <button onClick="playSaying('9');">9</button>
+	  <button onClick="playSaying('10');">10</button><br>
+	  <button onClick="playSaying('11');">11</button>
+	  <button onClick="playSaying('12');">12</button>
+	  <button onClick="playSaying('13');">13</button>
+	  <button onClick="playSaying('14');">14</button>
+	  <button onClick="playSaying('15');">15</button>
+	  <button onClick="playSaying('16');">16</button>
+	  <button onClick="playSaying('17');">17</button>
+	  <button onClick="playSaying('18');">18</button>
+	  <button onClick="playSaying('19');">19</button>
+	  <button onClick="playSaying('20');">20</button>
+	  <button onClick="playSaying('21');">21</button>
+	  <button onClick="playSaying('22');">22</button>
+	  <button onClick="playSaying('23');">23</button>
+	  <button onClick="playSaying('24');">24</button>
+	  <button onClick="playSaying('25');">25</button>
+</div>
+</body>
+</html>
