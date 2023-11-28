@@ -1,0 +1,453 @@
+/* http-server -c-1
+*/
+
+let myColor = [100, 100, 100];
+
+var player1;
+
+var walls;
+var Cans;
+
+
+let xoff=100;
+let yoff=100;
+let xsc=25;
+let ysc=25;
+let canvWidth=xsc*50;
+let canvHeight=ysc*24;
+let gameRound=0;
+
+let doNewCans=1;
+let objs=new Array();
+
+let plife=30;
+let numPlayers=1;
+var recData;
+
+let xmousePressed=0;
+let jmouseX1=0;
+let jmouseY1=0;
+let thY=0;
+let head1=0;
+
+
+function newCans() {
+  for(i=0; i<9; i++) {
+    let row=random(5);
+    let col=i+1;
+    let x1=100+(xsc*3)+(col*2)*xsc*1.5;
+    let y1=100+(row+1)*ysc*2+(ysc);
+    theCan=createCan(x1,y1,color(255,165,0),"CAN");
+    let thePos={};
+    thePos.x=x1;
+    thePos.y=y1;
+    objs[i]=thePos;
+  }
+  doNewCans=0;
+  gameRound+=1;
+}
+
+function createCan(x, y, c, id) {
+  let csc=40;
+  let Can = createSprite(x, y, csc, csc);
+  Can.shapeColor = c;
+  Cans.add(Can);
+  Can.draw = function() {
+    fill(this.shapeColor);
+    ellipse(0, 0, csc, csc);
+    fill("black");
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text(id, 0, 0);
+  }
+
+  // Can.setCollider("circle", 0, 0, csc/2);
+
+  return Can;
+}
+
+var player1StartX=0;
+var player1StartY=0;
+
+function setup() {
+  createCanvas(canvWidth, canvHeight);
+  background(100);
+
+  angleMode(DEGREES);
+  var xPos=3.3 * width/4;
+  var yPos=2.0 * height/4
+
+  player1 = getTank(xPos,yPos,"blue");
+  player1.rotation = 180;
+
+  var xPos=3.3 * width/4;
+  var yPos=2.9 * height/4;
+
+  walls = new Group();
+  Cans = new Group();
+
+  textAlign(CENTER);
+
+  strokeWeight(2);
+  stroke("black");
+
+  theWall=createWall(xsc*20,0,xsc*40,ysc*1);
+  theWall=createWall(xsc*20,ysc*16,xsc*40,ysc*1);
+  theWall=createWall(xsc*1,ysc*8,xsc*1,ysc*15);
+  theWall=createWall(xsc*39,ysc*8,xsc*1,ysc*15);
+
+  newCans();
+  // connectWebsocket("wss://echo.websocket.events/jimf99/ws");
+  // connectWebsocket("ws://localhost:8080/");
+  setup1();
+}
+
+var player1Auto=0;
+let player1Speed=0;
+let player1Keys=new Array(87,83,65,68,70);
+let thisFrame=0;
+var bKeys=new Array("W","A","S","D","F");
+var mbChr="x";
+var chD="~";
+var player1Ticks=1000;
+
+var ctr1=0;
+var ctr2=0;
+var destHead=0;
+
+function rotatePlayer1(ang) {
+  if (abs(player1.rotation-ang)<=1) {return;}
+  player1.rotation+=1;
+}
+
+  function scanner() {
+  var el1=10;
+  var d1=400;
+  for(ang=-60; ang<60; ang+=el1) {
+    var px=player1.position.x;
+    var py=player1.position.y;
+    var ang1=((180-player1.rotation)-90)+ang;
+    var px1=px+sin(ang1);
+    var py1=py+cos(ang1);
+    for(d=d1/10; d<d1; d+=el1) {
+    var px1=px+sin(ang1)*d;
+    var py1=py+cos(ang1)*d;
+      rect(px1,py1,el1/2,el1/2);
+    }
+  }
+  }
+
+
+function draw() {
+  frameRate(120);
+  background(color(32,128,32));
+  if(recData !=null) {
+    if(recData.p1k !=null) {
+        player1Key=recData.p1k;
+    }
+    if(recData.color !=null) {
+        myColor = recData.color;
+    }
+  }
+  fill(color(255,255,255));
+  // text(JSON.stringify(recData)+"",240,80);
+  fill(color(255,255,0));
+  if(player1StartX==0) {
+    player1StartX=player1.position.x;
+  }
+  if(player1StartY==0) {
+    player1StartY=player1.position.y;
+  }
+
+  player1Key=0;
+  player1Key+=keyIsDown(player1Keys[0])*player1Keys[0];
+  player1Key+=keyIsDown(player1Keys[1])*player1Keys[1];
+  player1Key+=keyIsDown(player1Keys[2])*player1Keys[2];
+  player1Key+=keyIsDown(player1Keys[3])*player1Keys[3];
+  player1Key+=keyIsDown(player1Keys[4])*player1Keys[4];
+
+  if(recData !=null) {
+    if(recData.p1k !=null) {
+        player1Key=recData.p1k;
+    }
+  }
+  for(i=0; i<bKeys.length; i++) {
+    if(mbChr==bKeys[i] && mbChr !="~") {
+    player1Key=player1Keys[i];
+    }
+  }
+
+  player1.distFromBase=dist(player1StartX,player1StartY,player1.position.x,player1.position.y);
+  player1.homeBase=player1.distFromBase<=xsc;
+  if(player1.hasCan && player1.homeBase==true) {
+    player1Key=player1Keys[4];
+    rotatePlayer1(player1.rotation+1);
+  }
+
+
+  if(player1Auto==2) {
+    ctr1++;
+    if(ctr1>100) {ctr1=0;}
+    if(ctr1==100) {player1Key=player1Keys[0];}
+    if(ctr1==100) {
+      if(player1.hasCan==true) {
+        // player1.rotation=360-22;
+      }
+    };
+    text(ctr1,100,50);
+    text(nf(round(player1Speed*100)/100,1,1),200,50);
+  }
+
+  if((player1Auto==1 && player1Key==0) && (frameCount % 2 == 0 ) ) {player1Key=player1Keys[0];}
+  if(player1Auto==1 && player1Key==0) {
+    if(player1StartX*player1StartY>0) {
+      // player1.rotation+=0.15;
+      if(dist(player1StartX+xsc,player1StartY+ysc,player1.position.x,player1.position.y)<=xsc && (player1.hasCan==true)) {
+        player1Key=player1Keys[4];
+        player1Speed=xsc;
+      }
+      }
+    }
+    if(player1.homeBase==true) {
+      if(player1Key==player1Keys[4] && player1.hasCan==true) {
+        player1.hasCan=false;
+        player1.score++;
+        player1Speed=0;
+        player1.rotation=180;
+      }
+  }
+
+  // Player 1 controls
+  if (player1Key==player1Keys[0]) { // Forward
+      player1Speed+=0.1;
+    }
+  if (player1Key==player1Keys[1]) { // Backward
+      player1Speed-=0.1;
+    }
+  if (player1Key==player1Keys[2]) { // Right
+    player1.rotation -= 5;
+  }
+  if (player1Key==player1Keys[3]) { // Left
+    player1.rotation += 5;
+  }
+
+  if(player1Speed>5) {player1Speed=5;}
+
+  if(player1Speed<-xsc*2) {player1Speed=-xsc*2;}
+  if(player1Speed>xsc*2) {player1Speed=xsc*2;}
+  player1.setSpeed(player1Speed,player1.rotation);
+  player1.collide(walls);
+
+  if (frameCount % 2 == 0) {
+    player1.collide(Cans);
+  }
+
+  player1.overlap(Cans, tankHitCan);
+
+  player1.age++;
+
+  if(1==1) {
+    strokeWeight(2);
+      stroke(color(255,255,255));
+    fill(player1.shapeColor);
+    rect(player1StartX-xsc,player1StartY-xsc,40,40);
+    if(player1Auto==0) {
+      strokeWeight(2);
+        stroke(color(255,255,255));
+    }
+  }
+
+  drawSprites();
+  draw1();
+  // scanner();
+
+  // Player 1 AutPilot
+  if(player1Auto==1) {
+    if(player1.hasCan==false && Cans.length>0) {
+      var i = (Cans.length-1);
+      var d={};
+      d.y=objs[i].y-player1.position.y;
+      d.x=objs[i].x-player1.position.x;
+      var angle1=atan2(d.y, d.x);
+      player1.rotation=angle1;
+    }
+  }
+
+  textSize(32);
+  if(player1.age>0) {
+    fill(player1.shapeColor);
+    text(player1.score,width/4, 40);
+  }
+
+  fill(color(255,255,255));
+  text("Round ",1.8*width/4, 40);
+  text(gameRound,2*width/4, 40);
+
+  if(player1.score==gameRound*9) {newCans();}
+  if(player1Key>0) {
+    // sendMessage({ pk1: player1Key });
+  }
+}
+
+function getTank(x, y, tankColor) {
+
+  let tank = createSprite(x, y, xsc*2, ysc*2);
+
+  tank.shapeColor = tankColor;
+
+  tank.age = 0;
+  this.drawSelf = false;
+
+  tank.score = 0;
+  tank.hasCan=false;
+
+  tank.isInvincible = function() {
+    return false;
+    return tank.age <= 180;
+  }
+
+  tank.draw = function() {
+    if(this.age<=0) {return true;}
+    this.drawSelf = true;
+    text(this.x,100,100);
+    if (this.drawSelf) {
+      rectMode(CORNER);
+      fill(tankColor);
+      strokeWeight(2);
+      stroke("black");
+        rect(-xsc, -ysc, xsc*1.25, ysc/2);
+      rect(-xsc,  ysc/2,  xsc*1.25, ysc/2);
+      rect(-xsc/2, -ysc/2, xsc/2, ysc);
+      rect(0, -ysc/5, xsc,ysc/2 );
+      if(this.hasCan==true) {
+          fill(color(255,165,0));
+          ellipse(0,0,20,20);
+      }
+    }
+  }
+
+  tank.shoot = function(){
+    return true;
+  }
+
+  tank.setDefaultCollider();
+
+  return tank;
+}
+
+function createWall(x, y, wallWidth, wallHeight) {
+  wall = createSprite(x+xoff,y+yoff, wallWidth, wallHeight);
+  wall.shapeColor = color(249, 195, 89);
+  wall.immovable = true;
+  wall.setDefaultCollider();
+  walls.add(wall);
+  return wall;
+}
+
+function keyPressed() {
+  return true;
+}
+
+function tankHitCan(tank, Can) {
+  if (tank.shapeColor != Can.shapeColor) {
+    tank.age = 0;
+    var thePlayer=player1;
+    if(tank == thePlayer && tank.hasCan==false) {
+      Can.remove();
+      thePlayer.hasCan=true;
+      if(thePlayer==player1 && player1StartX*player1StartY>0) {
+      var d={};
+      d.y=player1StartY-player1.position.y;
+      d.x=player1StartX-player1.position.x;
+      var angle1=atan2(d.y, d.x);
+      if(player1Auto==1) {
+          thePlayer.rotation=angle1;
+        thePlayer.speed=xsc*2;
+        }
+      }
+    }
+  }
+}
+
+let centX,centY;
+
+// Steering Angle Theta (-90 to +90 = Heading)
+let th;
+
+// p180 is PI/180 for converting degrees to radians
+let p180;
+
+// =========================
+function setup1() {
+  centX=width/2;
+  centY=height/2;
+  background(0);
+  th=0;
+  p180=PI/180;
+}
+
+
+
+// =====================
+function draw1() {
+  // background(0);
+  // Get mouse Position and Simulate Joystick 
+  strokeWeight(1);
+  stroke(255, 255, 255);
+  noFill();
+  let joyLen=100;
+  let joyLen2=joyLen/4;
+  let joyX1=centX;
+  let joyY1=height*0.80;
+  if(jmouseX1==0 || jmouseY1==0) {
+    jmouseX1=joyX1;
+    jmouseY1=joyY1;
+  }
+  line(joyX1,joyY1,joyX1,joyY1-joyLen2/2);
+  line(joyX1,joyY1,joyX1,joyY1+joyLen2/2);
+  line(joyX1-joyLen2/2,joyY1,joyX1+joyLen2/2,joyY1);
+  line(joyX1-joyLen2/2,joyY1,joyX1+joyLen2/2,joyY1);
+  circle(joyX1,joyY1,joyLen);
+  if(mouseIsPressed==true && dist(mouseX,mouseY,joyX1,joyY1)<=joyLen*0.60) {
+    th=-1*(mouseX-joyX1)/(joyLen/1.8);
+    th=constrain(th*100,-90,90);
+    thY=-1*(mouseY-joyY1)/(joyLen/1.8);
+    thY=constrain(thY*100,-90,90);
+    jmouseX1=mouseX;
+    jmouseY1=mouseY;
+    head1=-1*th;
+  }
+  if(mouseIsPressed==false) {
+    jmouseX1=joyX1+sin(player1.rotation*p180)*(joyLen)*(player1Speed/10);
+    jmouseY1=joyY1-cos(player1.rotation*p180)*(joyLen)*(player1Speed/10);		
+  }
+  strokeWeight(8);
+  circle(jmouseX1,jmouseY1,10);
+  line(joyX1,joyY1,jmouseX1,jmouseY1);
+  strokeWeight(1);
+  text(" JOYSTICK ",joyX1-8,joyY1+64);
+  text(" KEYS: W A S D F ",joyX1-8,joyY1+80);
+
+  // Display the Angle
+  strokeWeight(1);
+  stroke(255, 255, 255);
+  noFill();
+  var vel1=dist(joyX1,joyY1,jmouseX1,jmouseY1)/joyLen*2;
+  vel1=constrain(vel1,0,1);
+  if(jmouseY1>=joyY1) {vel1=-1*vel1;}	
+  let th1=th;
+  if(mouseIsPressed==true) {
+    player1.rotation+=(-th1/10);
+    player1Speed=vel1*3.0;
+  }
+
+}
+
+
+function mousePressed() {
+  // sendMessage({ color: [floor(mouseX),floor(mouseY),255] });
+}
+
+function messageReceived(data) {
+  recData=data;
+}
