@@ -8,6 +8,13 @@ var topic="jimfyyc/mqtt/p5js";
 var broker="wss://test.mosquitto.org:8081";
 var prevX=0;
 var prevY=0;
+
+let img;
+// Load the image.
+function preload() {
+  img = loadImage('keypad.jpg');
+}
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(255);
