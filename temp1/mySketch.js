@@ -61,6 +61,8 @@ var ky=0;
 
 function draw() {
 	if(ky==32) {background(255);}
+
+	draw(img,0,0,300,300);
 	var plotX=round(mouseX/width,4);
 	var plotY=round(mouseY/height,4);
 	if(mouseIsPressed){
