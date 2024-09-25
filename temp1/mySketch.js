@@ -9,12 +9,6 @@ var broker="wss://test.mosquitto.org:8081";
 var prevX=0;
 var prevY=0;
 
-let img;
-// Load the image.
-function preload() {
-  img = loadImage('keypad.jpg');
-}
-
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	background(255);
@@ -61,8 +55,6 @@ var ky=0;
 
 function draw() {
 	if(ky==32) {background(255);}
-
-	draw(img,0,0,300,300);
 	var plotX=round(mouseX/width,4);
 	var plotY=round(mouseY/height,4);
 	if(mouseIsPressed){
