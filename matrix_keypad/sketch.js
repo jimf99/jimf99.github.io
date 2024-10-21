@@ -20,7 +20,7 @@ var col=0;
 function setup1() {
   frameRate(60);
   createCanvas(600, 480);
-  img = loadImage('/data/keypad.jpg');
+  img = loadImage('keypad.jpg');
 }
 
 function milSec(prevMs) {
