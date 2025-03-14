@@ -19,6 +19,10 @@ https://jimf99.github.io/stream/index.html
 Culture
 =======
 
+Beliefs
+=======
+https://www.clearquran.com/downloads/quran-english-translation-clearquran-edition-allah.pdf
+
 Stream - Languages
 ===================
 https://agapelanguagecentre.com/
