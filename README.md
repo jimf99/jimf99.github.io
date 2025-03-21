@@ -27,6 +27,11 @@ Stream - Languages
 ===================
 https://agapelanguagecentre.com/
 
+Stream - Respect / Friendships
+==============================
+
+https://www.kijiji.ca/v-friendship-networking/calgary/hello-jesus-loves-you/1713264328
+
 Music
 =====
 https://www.youtube.com/watch?v=FGpwXq9Kbhk
