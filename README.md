@@ -53,6 +53,8 @@ https://www.youtube.com/watch?v=tW2iFr9qjI0 <= DIY Ukelele MIDI Controller ( BAS
 
 https://www.youtube.com/watch?v=0U1bAcWDPBI <= DIY BASS Guitar MIDI Controller ( ADVANCED )
 
+https://www.youtube.com/watch?v=zFWH0xxBsnQ <= DIY Wireless MIDI Controllers
+
 Culture
 =======
 
