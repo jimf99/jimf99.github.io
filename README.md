@@ -51,7 +51,7 @@ https://open.spotify.com/artist/44yXARAgcTDepVyipsdigz <=That Danner on Spotify
 
 https://www.youtube.com/watch?v=tW2iFr9qjI0 <= DIY Ukelele MIDI Controller ( BASIC )
 
-https://www.youtube.com/watch?v=0U1bAcWDPBI <= DIY Ukelele MIDI Controller ( ADVANCED )
+https://www.youtube.com/watch?v=0U1bAcWDPBI <= DIY BASS Guitar MIDI Controller ( ADVANCED )
 
 Culture
 =======
