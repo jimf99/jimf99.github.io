@@ -49,6 +49,8 @@ https://chordify.net/chords/train-songs/hey-soul-sister-chords
 
 https://open.spotify.com/artist/44yXARAgcTDepVyipsdigz <=That Danner on Spotify
 
+https://www.youtube.com/watch?v=tW2iFr9qjI0 <= DIY Ukelele MIDI Controller
+
 Culture
 =======
 
