@@ -7,8 +7,9 @@
   </head>
   <body>
     <button id="button">Click Me</button>
-
+    
     <script>
+      document.write("<pre>");
       const client = mqtt.connect(
         "wss://public:public@public.cloud.shiftr.io",
         {
@@ -17,12 +18,12 @@
       );
 
       client.on("connect", function () {
-        console.log("connected!");
+        document.write("connected!");
         client.subscribe("hello");
       });
 
       client.on("message", function (topic, message) {
-        console.log(topic + ": " + message.toString());
+        document.write(topic + ": " + message.toString());
       });
 
       document.querySelector("button").addEventListener("click", function () {
