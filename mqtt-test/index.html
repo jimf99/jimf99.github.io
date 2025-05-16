@@ -20,6 +20,7 @@
       client.on("connect", function () {
         document.write("connected!");
         client.subscribe("hello");
+        client.publish("hello", "world");
       });
 
       client.on("message", function (topic, message) {
