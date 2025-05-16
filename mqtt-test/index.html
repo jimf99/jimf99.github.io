@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Example</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  </head>
+  <body>
+    <button id="button">Click Me</button>
+
+    <script>
+      const client = mqtt.connect(
+        "wss://public:public@public.cloud.shiftr.io",
+        {
+          clientId: "javascript",
+        }
+      );
+
+      client.on("connect", function () {
+        console.log("connected!");
+        client.subscribe("hello");
+      });
+
+      client.on("message", function (topic, message) {
+        console.log(topic + ": " + message.toString());
+      });
+
+      document.querySelector("button").addEventListener("click", function () {
+        client.publish("hello", "world");
+      });
+    </script>
+  </body>
+</html>
