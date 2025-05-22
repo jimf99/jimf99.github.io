@@ -24,7 +24,7 @@
       });
 
       client.on("message", function (topic, message) {
-        document.write(topic + ": " + message.toString());
+        document.write(topic + ": " + message.toString()+"<br>\r\n");
       });
 
       document.querySelector("button").addEventListener("click", function () {
