@@ -30,6 +30,27 @@
       document.querySelector("button").addEventListener("click", function () {
         client.publish("hello", "world");
       });
+
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  // Format the time as needed
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+  // Update the HTML element to display the time
+  document.getElementById('clock').textContent = formattedTime;
+}
+
+// Call updateClock every second (1000 milliseconds)
+setInterval(updateClock, 1000);
+
+// Initial call to display the time immediately
+updateClock();
+
     </script>
+
   </body>
 </html>
