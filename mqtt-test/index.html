@@ -9,28 +9,6 @@
     <button id="button">Click Me</button><br>
   <div id="clock"></div>    
     <script>
-      document.write("<pre>");
-      const client = mqtt.connect(
-        "wss://public:public@public.cloud.shiftr.io",
-        {
-          clientId: "javascript",
-        }
-      );
-
-      client.on("connect", function () {
-        document.write("connected!");
-        client.subscribe("hello");
-        client.publish("hello", "world");
-      });
-
-      client.on("message", function (topic, message) {
-        document.write(topic + ": " + message.toString()+"<br>\r\n");
-      });
-
-      document.querySelector("button").addEventListener("click", function () {
-        client.publish("hello", "world");
-      });
-
 function updateClock() {
   const now = new Date();
   const hours = now.getHours();
@@ -50,6 +28,29 @@ setInterval(updateClock, 1000);
 
 // Initial call to display the time immediately
 updateClock();
+
+      document.write("<pre>");
+      const client = mqtt.connect(
+        "wss://public:public@public.cloud.shiftr.io",
+        {
+          clientId: "javascript",
+        }
+      );
+
+      client.on("connect", function () {
+        document.write("connected!");
+        client.subscribe("hello");
+        updateClock();
+      });
+
+      client.on("message", function (topic, message) {
+        document.write(topic + ": " + message.toString()+"<br>\r\n");
+      });
+
+      document.querySelector("button").addEventListener("click", function () {
+        client.publish("hello", "world");
+      });
+
 
     </script>
 
