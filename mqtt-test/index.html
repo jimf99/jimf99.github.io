@@ -7,7 +7,8 @@
   </head>
   <body>
     <button id="button">Click Me</button><br>
-  <div id="clock"></div>    
+  <div id="clock"></div>
+    <div id="msg"></div>
     <script>
 function updateClock() {
   const now = new Date();
@@ -20,7 +21,7 @@ function updateClock() {
   client.publish("hello", "time: "+formattedTime+"<br>\n");
 
   // Update the HTML element to display the time
-  document.getElementById('clock').textContent = formattedTime;
+  document.getElementById('msg').innerHTML = formattedTime;
 }
 
 // Call updateClock every second (1000 milliseconds)
@@ -43,7 +44,7 @@ updateClock();
       });
 
       client.on("message", function (topic, message) {
-       document.getElementById('clock').textContent = topic + ": " + message.toString()+"<br>\r\n");
+       document.getElementById('msg').innerHTML = topic + ": " + message.toString()+"<br>\r\n");
       });
 
       document.querySelector("button").addEventListener("click", function () {
