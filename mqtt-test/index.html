@@ -38,13 +38,12 @@ updateClock();
       );
 
       client.on("connect", function () {
-        document.write("connected!");
         client.subscribe("hello");
         updateClock();
       });
 
       client.on("message", function (topic, message) {
-        document.write(topic + ": " + message.toString()+"<br>\r\n");
+       document.getElementById('clock').textContent = topic + ": " + message.toString()+"<br>\r\n");
       });
 
       document.querySelector("button").addEventListener("click", function () {
