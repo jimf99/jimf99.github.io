@@ -24,7 +24,7 @@
       });
 
       client.on("message", function (topic, message) {
-        document.getElementById("demo").innerHTML = topic + ": " + message.toString();
+        document.getElementById("msg").innerHTML = topic + ": " + message.toString();
         console.log(topic + ": " + message.toString());
       });
 
