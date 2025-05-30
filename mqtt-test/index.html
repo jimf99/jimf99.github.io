@@ -10,27 +10,7 @@
   <div id="clock"></div>
     <div id="msg"></div>
     <script>
-function updateClock() {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  
-  // Format the time as needed
-  const formattedTime = `${hours}:${minutes}:${seconds}`;
   client.publish("hello", "time: "+formattedTime+"<br>\n");
-
-  // Update the HTML element to display the time
-  document.getElementById('msg').innerHTML = formattedTime;
-}
-
-// Call updateClock every second (1000 milliseconds)
-setInterval(updateClock, 1000);
-
-// Initial call to display the time immediately
-updateClock();
-
-      document.write("<pre>");
       const client = mqtt.connect(
         "wss://public:public@public.cloud.shiftr.io",
         {
@@ -40,7 +20,7 @@ updateClock();
 
       client.on("connect", function () {
         client.subscribe("hello");
-        updateClock();
+        document.getElementById('msg').innerHTML = "Connected!";
       });
 
       client.on("message", function (topic, message) {
