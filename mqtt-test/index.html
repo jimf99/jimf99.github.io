@@ -6,6 +6,7 @@
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   </head>
   <body>
+    <div id="msg"></div><hr>
     <button id="button">Click Me</button>
 
     <script>
@@ -18,10 +19,12 @@
 
       client.on("connect", function () {
         console.log("connected!");
+        document.getElementById("msg").innerHTML = "Connected!";
         client.subscribe("hello");
       });
 
       client.on("message", function (topic, message) {
+        document.getElementById("demo").innerHTML = topic + ": " + message.toString();
         console.log(topic + ": " + message.toString());
       });
 
