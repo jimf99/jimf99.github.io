@@ -19,8 +19,8 @@
 
       client.on("connect", function () {
         console.log("connected!");
-        document.getElementById("msg").innerHTML = "Connected!";
         client.subscribe("hello");
+        document.getElementById("msg").innerHTML = "Connected!";
       });
 
       client.on("message", function (topic, message) {
