@@ -41,6 +41,8 @@ Stream - Arts
 Stream - Music
 =====
 
+https://www.musiconerd.com/i-built-a-midi-theremin/ <= Arduino Midi Theremin 
+
 https://ukebuddy.com/
 
 https://www.youtube.com/watch?v=FGpwXq9Kbhk
