@@ -6,8 +6,8 @@
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   </head>
   <body>
-    <button id="button">Click Me</button>
-    
+    <button id="button">Click Me</button><br>
+  <div id="clock"></div>    
     <script>
       document.write("<pre>");
       const client = mqtt.connect(
@@ -36,9 +36,10 @@ function updateClock() {
   const hours = now.getHours();
   const minutes = now.getMinutes();
   const seconds = now.getSeconds();
-
+  
   // Format the time as needed
   const formattedTime = `${hours}:${minutes}:${seconds}`;
+  client.publish("hello", "time: "+formattedTime+"<br>\n");
 
   // Update the HTML element to display the time
   document.getElementById('clock').textContent = formattedTime;
