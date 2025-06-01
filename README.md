@@ -28,6 +28,8 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics
 ==
+https://wokwi.com/projects/394183708556652545 <= Arduino Theremin (Speaker and Tone)
+
 https://wokwi.com/projects/387845479260121089 <= MIDI Controller
 
 https://www.youtube.com/watch?v=NaxtGdHR_6E
