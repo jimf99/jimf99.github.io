@@ -38,6 +38,10 @@ https://www.youtube.com/watch?v=U4XknGqr3Bo
 
 https://www.youtube.com/watch?v=3AtcFHIY4Pw
 
+Stream - Electronics / Robotics
+===
+https://github.com/ricardoquesada/bluepad32-arduino
+
 Stream - Arts
 ===
 
