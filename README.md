@@ -42,6 +42,8 @@ Stream - Electronics / Robotics
 ===
 https://github.com/ricardoquesada/bluepad32-arduino
 
+https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
+
 Stream - Arts
 ===
 
