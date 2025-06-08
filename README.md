@@ -38,7 +38,7 @@ https://www.youtube.com/watch?v=U4XknGqr3Bo
 
 https://www.youtube.com/watch?v=3AtcFHIY4Pw
 
-https://www.arduinolibraries.info/libraries/osc
+https://www.arduinolibraries.info/libraries/osc <= Open Sound Control - Arduino Library
 
 Stream - Electronics / Robotics
 ===
