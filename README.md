@@ -40,6 +40,8 @@ https://www.youtube.com/watch?v=3AtcFHIY4Pw
 
 https://www.arduinolibraries.info/libraries/osc <= Open Sound Control - Arduino Library
 
+https://github.com/tigoe <= Tom Igoe GitHub
+
 Stream - Electronics / Robotics
 ===
 https://github.com/ricardoquesada/bluepad32-arduino
