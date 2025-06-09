@@ -109,11 +109,14 @@ function onConnectionLost(response) {
     localDiv.html('onConnectionLost:' + response.errorMessage);
   }
 }
+let incoming={};
 
 // called when a message arrives
 function onMessageArrived(message) {
   remoteDiv.html('I got a message:' + message.payloadString);
   let incoming = split(trim(message.payloadString), "/");
+  let part1=incoming[0]+"";
+  let part2=incoming[1]+"";
   console.log(incoming);
 }
 
