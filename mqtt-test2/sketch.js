@@ -1,21 +1,11 @@
 /*
-    p5.js MQTT Client example
-    This example uses p5.js: https://p5js.org/
-    and the Eclipse Paho MQTT client library: https://www.eclipse.org/paho/clients/js/
-    to create an MQTT client that sends and receives MQTT messages.
-    The client is set up for use on the shiftr.io test MQTT broker (https://shiftr.io/try),
-    but has also been tested on https://test.mosquitto.org
-    created 12 June 2020
-    modified 20 Aug 2020
-    by Tom Igoe
 */
 
-// MQTT client details:
 let broker = {
-
   hostname: 'public.cloud.shiftr.io',
   port: 443
 };
+
 // MQTT client:
 let client;
 // client credentials:
@@ -24,8 +14,8 @@ let creds = {
   userName: 'public', // unique Key from token
   password: 'public' // unique Secret from token
 }
-// topic to subscribe to when you connect:
-let topic = 'arduino/simple';
+
+let topic = 'jimf99/mqtt-1';
 
 // a pushbutton to send messages
 let sendButton;
@@ -61,13 +51,6 @@ function setup() {
     password: creds.password, // password
     useSSL: true // use SSL
   });
-  // create input
-  // inpt = createInput("enter 0-255");
-  // inpt.position(20, 0);
-  // // create the send button:
-  // sendButton = createButton('send to LED 1');
-  // sendButton.position(20, 20);
-  // sendButton.mousePressed(sendMqttMessage);
   // create a div for local messages:
   localDiv = createDiv('local messages will go here');
   localDiv.position(20, 50);
@@ -76,10 +59,6 @@ function setup() {
   remoteDiv = createDiv('waiting for messages');
   remoteDiv.position(20, 80);
   remoteDiv.style('color', '#fff');
-
-
-
-
   for (let i = 0; i < leds.length; i++) {
     if (i == 0) {
       leds[i].name = "ledR";
@@ -107,13 +86,6 @@ function draw() {
     leds[i].show();
     leds[i].detect();
   }
-  // draw a circle whose brightness changes then a message is received:
-  // fill(intensity);
-  // circle(width / 2, height / 2, width / 2);
-  // subtract one from the brightness of the circle:
-  // if (intensity > 0) {
-  //   intensity--;
-  // }
 }
 
 function mousePressed() {
@@ -143,10 +115,6 @@ function onMessageArrived(message) {
   remoteDiv.html('I got a message:' + message.payloadString);
   let incoming = split(trim(message.payloadString), "/");
   console.log(incoming);
-  // let incomingNumber = parseInt(message.payloadString);
-  // if (incomingNumber > 0) {
-  //   intensity = incomingNumber;
-  // }
 }
 
 // called when you want to send a message:
@@ -221,7 +189,6 @@ class Led {
       // print what you sent:
       localDiv.html('I sent: ' + message.payloadString);
     }
-
   }
 
   show() {
