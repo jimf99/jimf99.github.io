@@ -117,7 +117,7 @@ function onMessageArrived(message) {
   let incoming = split(trim(message.payloadString), "/");
   let part1=incoming[0]+"";
   let part2=incoming[1]+"";
-  console.log(incoming);
+  console.log(incoming+" "+part1+" "+part2);
 }
 
 // called when you want to send a message:
