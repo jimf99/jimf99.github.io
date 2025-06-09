@@ -113,10 +113,12 @@ let incoming={};
 
 // called when a message arrives
 function onMessageArrived(message) {
-  remoteDiv.html('I got a message:' + message.payloadString);
+  let tmp='I got a message:' + message.payloadString;
   let incoming = split(trim(message.payloadString), "/");
   let part1=incoming[0]+"";
   let part2=incoming[1]+"";
+  let tmp=part1+" "+part[2];
+  remoteDiv.html(tmp);
   console.log(incoming+" "+part1+" "+part2);
 }
 
