@@ -51,6 +51,8 @@ Stream - Arts
 
 Stream - Music
 =====
+https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
+
 https://www.notesandvolts.com/ <= Notes and Volts
 
 https://webmidijs.org/ <= Web MIDI
