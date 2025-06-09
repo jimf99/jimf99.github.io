@@ -8,7 +8,7 @@
     created 12 June 2020
     modified 20 Aug 2020
     by Tom Igoe
-*/
+*/  
 
 // MQTT client details:
 let broker = {
