@@ -32,11 +32,11 @@ https://wokwi.com/projects/394183708556652545 <= Arduino Theremin (Speaker and T
 
 https://wokwi.com/projects/387845479260121089 <= MIDI Controller
 
-https://www.youtube.com/watch?v=NaxtGdHR_6E
+https://www.youtube.com/watch?v=NaxtGdHR_6E <= Solar Li-ion Battery Charger
 
-https://www.youtube.com/watch?v=U4XknGqr3Bo
+https://www.youtube.com/watch?v=U4XknGqr3Bo <= Transistor Full Documentary
 
-https://www.youtube.com/watch?v=3AtcFHIY4Pw
+https://www.youtube.com/watch?v=3AtcFHIY4Pw <= American Experience S24E13 Silicon Valley
 
 https://www.arduinolibraries.info/libraries/osc <= Open Sound Control - Arduino Library
 
