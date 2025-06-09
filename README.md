@@ -22,7 +22,6 @@ Stream - Technology
 
 Stream - Respect / Friendships
 ==============================
-https://www.kijiji.ca/v-friendship-networking/calgary/hello-jesus-loves-you/1713264328
 
 https://agapelanguagecentre.com/
 
