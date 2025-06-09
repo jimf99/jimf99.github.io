@@ -18,6 +18,7 @@ Stream - Science
 
 Stream - Technology
 ===
+https://github.com/tigoe <= Tom Igoe GitHub
 
 
 Stream - Respect / Friendships
@@ -38,8 +39,6 @@ https://www.youtube.com/watch?v=U4XknGqr3Bo <= Transistor Full Documentary
 https://www.youtube.com/watch?v=3AtcFHIY4Pw <= American Experience S24E13 Silicon Valley
 
 https://www.arduinolibraries.info/libraries/osc <= Open Sound Control - Arduino Library
-
-https://github.com/tigoe <= Tom Igoe GitHub
 
 Stream - Electronics / Robotics
 ===
