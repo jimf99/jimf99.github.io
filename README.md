@@ -51,6 +51,8 @@ Stream - Arts
 
 Stream - Music
 =====
+https://people.carleton.edu/~jellinge/m101s12/Pages/01/01SoundBasics.html <= Sound Basics
+
 https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
 
 https://www.notesandvolts.com/ <= Notes and Volts
