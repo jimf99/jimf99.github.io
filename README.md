@@ -81,9 +81,15 @@ Culture
 =======
 
 Culture - Beliefs
-===
+=================
 
-https://www.clearquran.com/downloads/quran-english-translation-clearquran-edition-allah.pdf
+https://en.wikipedia.org/wiki/Christianity <= Christianity
+
+https://en.wikipedia.org/wiki/Judaism <= Judaism
+
+https://en.wikipedia.org/wiki/Islam <= Islam
+
+https://www.clearquran.com/downloads/quran-english-translation-clearquran-edition-allah.pdf <= Islam / Quran ( English )
 
 Library
 =======
