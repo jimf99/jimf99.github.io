@@ -44,6 +44,9 @@ https://www.youtube.com/watch?v=3AtcFHIY4Pw <= American Experience S24E13 Silico
 
 https://www.arduinolibraries.info/libraries/osc <= Open Sound Control - Arduino Library
 
+https://editor.p5js.org/jimf99/sketches/hDv2gmcI5
+
+
 Stream - Electronics / Robotics
 ===
 https://github.com/ricardoquesada/bluepad32-arduino
