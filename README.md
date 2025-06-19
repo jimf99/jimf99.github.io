@@ -64,6 +64,7 @@ https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
 
 Stream - Arts
 ===
+https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk7pn <= P5js Creative Coding (Beginners Tutorials)
 
 Stream - Music
 =====
