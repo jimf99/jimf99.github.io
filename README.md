@@ -28,6 +28,8 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics
 ==
+https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/ <= MakeZine (Makers Magazine) Modern Day Internet Telegraph
+
 https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az <= ELEGOO Arduino Super Starter Kit Tutorials 
 
 https://github.com/dadecoza/arduino-lcd-keypad-shield-games <= Arduino LCD+Keypad Shield Games
