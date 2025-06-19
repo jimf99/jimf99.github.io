@@ -28,6 +28,8 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics
 ==
+https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az <= ELEGOO Arduino Super Starter Kit Tutorials 
+
 https://github.com/dadecoza/arduino-lcd-keypad-shield-games <= Arduino LCD+Keypad Shield Games
 
 https://ai.thestempedia.com/docs/dabble-app/gamepad-module/ <= ESP32 / BlueTooth Communications (Controller)
