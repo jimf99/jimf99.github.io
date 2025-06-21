@@ -72,6 +72,8 @@ https://people.carleton.edu/~jellinge/m101s12/Pages/01/01SoundBasics.html <= Sou
 
 https://www.youtube.com/@karafun/playlists <= Karaoke Playlists
 
+https://www.youtube.com/watch?v=sdQWAFtgIB4 <= Fun Karaoke
+
 https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
 
 https://www.notesandvolts.com/ <= Notes and Volts
@@ -82,7 +84,7 @@ https://www.youtube.com/watch?v=CWPtxGrBlU8 <= Arduino Midi Theremin ( Video )
 
 https://www.musiconerd.com/i-built-a-midi-theremin/ <= Arduino Midi Theremin (Project)
 
-https://ukebuddy.com/
+https://ukebuddy.com/ <= Learn Ukelele with UkeBuddy
 
 https://www.youtube.com/watch?v=FGpwXq9Kbhk
 
@@ -97,9 +99,6 @@ https://www.youtube.com/watch?v=tW2iFr9qjI0 <= DIY Ukelele MIDI Controller ( BAS
 https://www.youtube.com/watch?v=0U1bAcWDPBI <= DIY BASS Guitar MIDI Controller ( ADVANCED )
 
 https://www.youtube.com/watch?v=zFWH0xxBsnQ <= DIY Wireless MIDI Controllers
-
-Culture
-=======
 
 Culture - Beliefs
 =================
@@ -127,6 +126,4 @@ https://openprocessing.org/sketch/422944
 https://openprocessing.org/sketch/1200514
 
 https://editor.p5js.org/jimf99/sketches/XiDUFJO5p
-
-
 
