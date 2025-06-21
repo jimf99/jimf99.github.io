@@ -14,10 +14,10 @@ S.T.R.E.A.M.
 https://jimf99.github.io/stream/index.html
 
 Stream - Science
-===
+=================
 
 Stream - Technology
-===
+===================
 https://github.com/tigoe <= Tom Igoe GitHub
 
 
@@ -27,7 +27,7 @@ Stream - Respect / Friendships
 https://agapelanguagecentre.com/
 
 Stream - Electronics
-==
+====================
 
 https://docs.arduino.cc/built-in-examples/ <= Arduino Built in Examples
 
@@ -57,18 +57,20 @@ https://editor.p5js.org/jimf99/sketches/hDv2gmcI5
 
 
 Stream - Electronics / Robotics
-===
+===============================
 https://github.com/ricardoquesada/bluepad32-arduino
 
 https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
 
 Stream - Arts
-===
+=============
 https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk7pn <= P5js Creative Coding (Beginners Tutorials)
 
 Stream - Music
-=====
+==============
 https://people.carleton.edu/~jellinge/m101s12/Pages/01/01SoundBasics.html <= Sound Basics
+
+https://www.youtube.com/@karafun/playlists <= Karaoke Playlists
 
 https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
 
