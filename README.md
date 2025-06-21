@@ -74,6 +74,8 @@ https://www.youtube.com/@karafun/playlists <= Karaoke Playlists
 
 https://www.youtube.com/watch?v=sdQWAFtgIB4 <= Fun Karaoke
 
+https://www.youtube.com/watch?v=WiVuYFXiS14&list=PLD3E5F3350EEDE7F6&index=1 <= Stingray 3 Hours Karaoke
+
 https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
 
 https://www.notesandvolts.com/ <= Notes and Volts
