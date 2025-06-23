@@ -29,8 +29,8 @@ Stream - Respect / Friendships
 
 https://agapelanguagecentre.com/
 
-Stream - Electronics
-====================
+Stream - Electronics + Computers
+================================
 https://arduino.cc <= Arduino
 
 https://docs.arduino.cc/built-in-examples/ <= Arduino Built in Examples
@@ -61,7 +61,7 @@ https://editor.p5js.org/jimf99/sketches/hDv2gmcI5
 
 https://www.notesandvolts.com/ <= Notes And Volts (Dave)
 
-Stream - Electronics / Robotics
+Stream - Electronics + Robotics
 ===============================
 https://github.com/ricardoquesada/bluepad32-arduino
 
@@ -124,7 +124,7 @@ Library
 https://webprint.calgarylibrary.ca/print
 
 # Temp Notes
-# ===========
+#===========
 
 https://p5js.org/examples/animation-and-variables-mobile-device-movement/
 
