@@ -26,6 +26,7 @@ https://gotbasic.com/ <= BASIC Programming
 
 Stream - Respect / Friendships
 ==============================
+https://jimf99.github.io/stream/respect <= Respect
 
 https://agapelanguagecentre.com/
 
