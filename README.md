@@ -22,6 +22,7 @@ https://oldcomputers.net/sol-20.html <= Learned BASIC in 1979-1980
 
 https://github.com/tigoe <= Tom Igoe GitHub
 
+https://gotbasic.com/
 
 Stream - Respect / Friendships
 ==============================
@@ -30,6 +31,7 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics
 ====================
+https://arduino.cc <= Arduino
 
 https://docs.arduino.cc/built-in-examples/ <= Arduino Built in Examples
 
