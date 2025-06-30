@@ -128,6 +128,10 @@ Library
 
 https://webprint.calgarylibrary.ca/print
 
+Utils
+======
+https://apitemplate.io/pdf-tools/convert-markdown-to-pdf/
+
 Temp Notes
 ==========
 
