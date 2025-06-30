@@ -74,6 +74,8 @@ https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk
 
 Stream - Music
 ==============
+https://musiclab.chromeexperiments.com/Experiments
+
 https://experiments.withgoogle.com/instrument-playground <= Google Instruments Playground
 
 https://github.com/yeemachine/theremix <= Theremix (Virtual Theremin App) Theremin.app
