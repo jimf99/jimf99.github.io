@@ -74,7 +74,9 @@ https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk
 
 Stream - Music
 ==============
-https://musiclab.chromeexperiments.com/Experiments
+https://musiclab.chromeexperiments.com/Experiments <= Chrome Experiments
+
+https://experiments.withgoogle.com/scan-sequencer <= Experiments with Google
 
 https://experiments.withgoogle.com/instrument-playground <= Google Instruments Playground
 
