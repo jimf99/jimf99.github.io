@@ -36,6 +36,8 @@ https://arduino.cc <= Arduino
 
 https://docs.arduino.cc/built-in-examples/ <= Arduino Built in Examples
 
+https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-3e661f <= Arduino Theremin
+
 https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/ <= MakeZine (Makers Magazine) Modern Day Internet Telegraph
 
 https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az <= ELEGOO Arduino Super Starter Kit Tutorials 
