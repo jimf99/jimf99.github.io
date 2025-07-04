@@ -32,6 +32,9 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics + Computers
 ================================
+# Books
+  Look for books by Forrest M. Mims III
+
 https://arduino.cc <= Arduino
 
 https://docs.arduino.cc/built-in-examples/ <= Arduino Built in Examples
