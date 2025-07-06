@@ -24,6 +24,10 @@ https://github.com/tigoe <= Tom Igoe GitHub
 
 https://gotbasic.com/ <= BASIC Programming
 
+Stream - Science + Technology
+=============================
+https://www.youtube.com/watch?v=hUlzdFSNMkk <=Forest M. Mims III (Interview Part 1)
+
 Stream - Respect / Friendships
 ==============================
 https://jimf99.github.io/stream/respect <= Respect
