@@ -35,8 +35,7 @@ Stream - Electronics + Computers
 ## Books / Authors
 ## Forrest M. Mims III
 
-[ Make: Maverick Scientist: My Adventures as an Amateur Scientist]
-(https://google.com/?q='Make: Maverick Scientist: My Adventures as an Amateur Scientist')
+([https://google.com/?q='Make: Maverick Scientist: My Adventures as an Amateur Scientist'](https://www.google.com/search?q=Make%3A+Maverick+Scientist%3A+My+Adventures+as+an+Amateur+Scientist))
 
 [  Look for books by Forrest M. Mims III
 ](http://www.forrestmims.org/publications.html)
