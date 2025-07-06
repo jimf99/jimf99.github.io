@@ -33,7 +33,10 @@ https://agapelanguagecentre.com/
 Stream - Electronics + Computers
 ================================
 ## Books
-  Look for books by Forrest M. Mims III
+## Forrest M. Mims III
+
+[  Look for books by Forrest M. Mims III
+](http://www.forrestmims.org/publications.html)
 
 ## Arduino and Other Stuff
 
