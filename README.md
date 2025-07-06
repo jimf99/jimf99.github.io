@@ -41,6 +41,8 @@ Stream - Electronics + Computers
 
 [https://google.com/?q='Make: Maverick Scientist: My Adventures as an Amateur Scientist'](https://www.google.com/search?q=Make%3A+Maverick+Scientist%3A+My+Adventures+as+an+Amateur+Scientist)
 
+[ Google Books ](https://www.google.ca/books/edition/Make_Maverick_Scientist/UUoCEQAAQBAJ?hl=en&gbpv=1&printsec=frontcover)
+
 [  Look for books by Forrest M. Mims III
 ](http://www.forrestmims.org/publications.html)
 
