@@ -25,6 +25,8 @@ Stream - Science + Technology
 =============================
 https://www.youtube.com/watch?v=hUlzdFSNMkk <=Forest M. Mims III (Interview Part 1)
 
+https://www.youtube.com/watch?v=qNf9nzvnd1k <= Audio from 20Hz to 20Khz
+
 Stream - Respect / Friendships
 ==============================
 https://jimf99.github.io/stream/respect <= Respect
