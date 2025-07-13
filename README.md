@@ -13,11 +13,8 @@ S.T.R.E.A.M.
 
 https://jimf99.github.io/stream/index.html
 
-Stream - Science
-=================
-
-Stream - Technology
-===================
+Stream - Science + Technology
+=============================
 https://oldcomputers.net/sol-20.html <= Learned BASIC in 1979-1980
 
 https://github.com/tigoe <= Tom Igoe GitHub
