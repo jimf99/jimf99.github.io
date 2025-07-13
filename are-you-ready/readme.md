@@ -7,7 +7,7 @@
 [Max Lucado - The Rapture, Tribulation, and Antichrist
 ](https://www.youtube.com/watch?v=0vqVrIYkfrg)
 
-[Why MILLIONS Will Miss the Rapture (But You Don’t Have To!) | Max Lucado](https://www.youtube.com/watch?v=Ta5c2uC343A)
+[Why MILLIONS Will Miss the Rapture - But You Don’t Have To! | Max Lucado](https://www.youtube.com/watch?v=Ta5c2uC343A)
 
 [Rapture Ready](https://www.raptureready.com/)
 
