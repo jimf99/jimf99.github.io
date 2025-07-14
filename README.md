@@ -26,7 +26,7 @@ https://www.youtube.com/watch?v=hUlzdFSNMkk <=Forest M. Mims III (Interview Part
 
 https://www.youtube.com/watch?v=qNf9nzvnd1k <= Audio from 20Hz to 20Khz
 
-Stream - Respect / Friendships
+Stream - Respect + Friendships
 ==============================
 https://jimf99.github.io/stream/respect <= Respect
 
