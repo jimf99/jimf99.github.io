@@ -95,7 +95,8 @@ Stream - Electronics + Robotics
 ===============================
 
 https://www.talkingelectronics.com/projects/200TrCcts/200TrCcts.html <= TalkingElectronics (Colin Mitchell) Electronics Projects
-https://github.com/ricardoquesada/bluepad32-arduino
+
+https://github.com/ricardoquesada/bluepad32-arduino <= Arduino BlueTooth Controller
 
 https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
 
