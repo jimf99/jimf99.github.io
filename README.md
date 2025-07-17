@@ -60,6 +60,8 @@ https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-
 
 https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/ <= MakeZine (Makers Magazine) Modern Day Internet Telegraph
 
+https://randomnerdtutorials.com/ <= Random Nerd Tutorials Arduinos and Other Stuff
+
 https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az <= ELEGOO Arduino Super Starter Kit Tutorials 
 
 https://github.com/dadecoza/arduino-lcd-keypad-shield-games <= Arduino LCD+Keypad Shield Games
