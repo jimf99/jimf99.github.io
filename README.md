@@ -1,4 +1,3 @@
-
 Projects       
 =========  
 https://jimf99.github.io/9cansPoC.html
@@ -45,6 +44,9 @@ Stream - Electronics + Computers
 ](http://www.forrestmims.org/publications.html)
 
 [MakeZine.com - Forrest M. Mims III](https://makezine.com/author/forrest-m-mims-iii)
+
+https://www.instructables.com/How-to-Make-Simple-Amplifier-Circuit-Without-IC/
+
 
 ## Arduino and Other Stuff
 
