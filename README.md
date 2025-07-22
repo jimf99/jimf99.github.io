@@ -31,6 +31,10 @@ https://jimf99.github.io/stream/respect <= Respect
 
 https://agapelanguagecentre.com/
 
+Stream - Electronics - Circuits
+===============================
+https://youtu.be/Kk12KHVget4?si=PUNHuauTdFuU6RJi <= One Transistor Amp
+
 Stream - Electronics + Computers
 ================================
 ## Books / Authors
