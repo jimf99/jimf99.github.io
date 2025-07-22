@@ -33,9 +33,12 @@ https://agapelanguagecentre.com/
 
 Stream - Electronics - Circuits
 ===============================
+https://www.build-electronic-circuits.com/how-transistors-work/ <= How Transistors Work
+
 https://youtu.be/Kk12KHVget4?si=PUNHuauTdFuU6RJi <= One Transistor Amp
 
 https://www.build-electronic-circuits.com/simple-fm-transmitter/ <= Simple FM Transmitter
+
 
 Stream - Electronics + Computers
 ================================
