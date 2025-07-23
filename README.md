@@ -131,6 +131,8 @@ https://experiments.withgoogle.com/scan-sequencer <= Experiments with Google
 
 https://experiments.withgoogle.com/instrument-playground <= Google Instruments Playground
 
+https://www.gaudi.ch/OpenTheremin/ <= Open Theremin Kit 
+
 https://github.com/yeemachine/theremix <= Theremix (Virtual Theremin App) Theremin.app
 
 https://people.carleton.edu/~jellinge/m101s12/Pages/01/01SoundBasics.html <= Sound Basics
