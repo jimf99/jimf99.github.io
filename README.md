@@ -121,6 +121,10 @@ https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk
 
 Stream - Music
 ==============
+https://www.instructables.com/Neo-Chord-DIY-MIDI-Controller-for-Playing-Chords/ <= NeoTrellis DIY MIDI Controller
+
+https://midi.city <= Web MIDI
+
 https://musiclab.chromeexperiments.com/Experiments <= Chrome Experiments
 
 https://experiments.withgoogle.com/scan-sequencer <= Experiments with Google
