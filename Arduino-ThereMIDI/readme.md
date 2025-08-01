@@ -1,3 +1,5 @@
+![diagram](path/to/image.jpg "Optional Title")
+
 * ThereMIDI
   * Inspired by: https://github.com/silveirago/Theremidi
   * https://youtu.be/CWPtxGrBlU8?si=sW5UNRUgEtKDVIxn&t=618
