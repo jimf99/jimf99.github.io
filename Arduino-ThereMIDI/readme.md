@@ -1,4 +1,4 @@
-![diagram](path/to/image.jpg "Optional Title")
+![diagram](https://github.com/jimf99/jimf99.github.io/blob/main/Arduino-ThereMIDI/JimF99-Theremin%202a.png)
 
 * ThereMIDI
   * Inspired by: https://github.com/silveirago/Theremidi
