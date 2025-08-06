@@ -63,8 +63,7 @@ https://www.instructables.com/How-to-Make-Simple-Amplifier-Circuit-Without-IC/
 
 ## Arduino and Other Stuff
 
-https://docs.arduino.cc/libraries/adctouch/ <= ADCTouch Arduino Library 
-(Touch Sensor Pins, No Extra Hardware)
+[https://docs.arduino.cc/libraries/adctouch/](https://github.com/martin2250/ADCTouch)
 
 https://arduino.cc <= Arduino
 
