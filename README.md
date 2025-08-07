@@ -129,6 +129,8 @@ https://www.instructables.com/Neo-Chord-DIY-MIDI-Controller-for-Playing-Chords/ 
 
 https://midi.city <= Web MIDI
 
+https://github.com/mudcube/MIDI.js <= MIDI Javascript
+
 https://musiclab.chromeexperiments.com/Experiments <= Chrome Experiments
 
 https://experiments.withgoogle.com/scan-sequencer <= Experiments with Google
