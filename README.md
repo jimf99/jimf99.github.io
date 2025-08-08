@@ -81,7 +81,7 @@ https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az <= ELEGOO A
 
 https://github.com/dadecoza/arduino-lcd-keypad-shield-games <= Arduino LCD+Keypad Shield Games
 
-https://editor.p5js.org/jimf99/sketches/MdV3NQO_E <=TouchGUI Oscillator
+[https://editor.p5js.org/jimf99/sketches/MdV3NQO_E](https://editor.p5js.org/jimf99/sketches/MdV3NQO_E) <=TouchGUI Oscillator
 
 
 https://editor.p5js.org/cacheflowe/sketches/F7GG8vuEy <= P5js WebSerial
@@ -212,5 +212,9 @@ https://openprocessing.org/sketch/1200514
 https://editor.p5js.org/jimf99/sketches/XiDUFJO5p
 
 https://editor.p5js.org/jimf99/sketches/hDv2gmcI5
+
+https://editor.p5js.org/jimf99/sketches/MdV3NQO_E
+
+
 
 
