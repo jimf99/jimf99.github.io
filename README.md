@@ -18,6 +18,10 @@ Stream - Science + Technology
 
 Artificial Inteligence
 ======================
+https://www.google.com/search?q=Wonder+Valley+AI+Data+Centre+Park
+
+https://voyagedallas.com/interview/daily-inspiration-meet-anil-pantangi/
+
 https://www.microsoft.com/en-us/industry/blog/telecommunications/2025/04/08/the-transformative-impact-of-ai-and-generative-ai-on-oss-and-bss-in-telecommunications/
 
 Other Tech
