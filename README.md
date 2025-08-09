@@ -15,6 +15,14 @@ https://jimf99.github.io/stream/index.html
 
 Stream - Science + Technology
 =============================
+
+Artificial Inteligence
+======================
+https://www.microsoft.com/en-us/industry/blog/telecommunications/2025/04/08/the-transformative-impact-of-ai-and-generative-ai-on-oss-and-bss-in-telecommunications/
+
+Other Tech
+==========
+
 https://oldcomputers.net/sol-20.html <= Learned BASIC in 1979-1980
 
 https://github.com/tigoe <= Tom Igoe GitHub
