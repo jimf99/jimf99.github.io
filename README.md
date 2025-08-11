@@ -134,6 +134,8 @@ https://github.com/ricardoquesada/bluepad32-arduino <= Arduino BlueTooth Control
 
 https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
 
+https://github.com/danja/TM1638lite <=TM1638 LEDs 7SEG Display 8Buttons
+
 Stream - Arts
 =============
 https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk7pn <= P5js Creative Coding (Beginners Tutorials)
