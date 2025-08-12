@@ -51,6 +51,8 @@ https://youtu.be/Kk12KHVget4?si=PUNHuauTdFuU6RJi <= One Transistor Amp
 
 https://youtu.be/QGInwQa_XEM?si=X-0im91_P1cmVopg <= One Transistor Amp
 
+https://www.instructables.com/How-to-Make-Simple-Amplifier-Circuit-Without-IC/
+
 https://www.youtube.com/watch?v=44a01ao-NuQ <= Recreating NTE1431 IC From Science Fair "160-In-One" Kit
 
 https://www.build-electronic-circuits.com/simple-fm-transmitter/ <= Simple FM Transmitter
@@ -69,8 +71,6 @@ Stream - Electronics + Computers
 ](http://www.forrestmims.org/publications.html)
 
 [MakeZine.com - Forrest M. Mims III](https://makezine.com/author/forrest-m-mims-iii)
-
-https://www.instructables.com/How-to-Make-Simple-Amplifier-Circuit-Without-IC/
 
 
 ## Arduino and Other Stuff
