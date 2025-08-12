@@ -57,6 +57,8 @@ https://www.youtube.com/watch?v=44a01ao-NuQ <= Recreating NTE1431 IC From Scienc
 
 https://www.build-electronic-circuits.com/simple-fm-transmitter/ <= Simple FM Transmitter
 
+https://github.com/Resinchem/TM1638-MQTT/tree/main?tab=readme-ov-file
+
 
 Stream - Electronics + Computers
 ================================
