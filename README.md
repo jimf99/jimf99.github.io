@@ -13,7 +13,7 @@ S.T.R.E.A.M.
 
 https://jimf99.github.io/stream/index.html
 
-Stream - Science + Technology
+Stream => Science + Technology
 =============================
 
 Artificial Inteligence
@@ -37,13 +37,13 @@ https://www.youtube.com/watch?v=hUlzdFSNMkk <=Forest M. Mims III (Interview Part
 
 https://www.youtube.com/watch?v=qNf9nzvnd1k <= Audio from 20Hz to 20Khz
 
-Stream - Respect + Friendships
+Stream => Respect + Friendships
 ==============================
 https://jimf99.github.io/stream/respect <= Respect
 
 https://agapelanguagecentre.com/
 
-Stream - Electronics - Circuits
+Stream => Electronics - Circuits
 ===============================
 https://www.build-electronic-circuits.com/how-transistors-work/ <= How Transistors Work
 
@@ -175,6 +175,10 @@ https://editor.p5js.org/JeanTim/sketches/3Pfg4_C6r <= P5js Synth
 https://www.notesandvolts.com/ <= Notes and Volts
 
 https://webmidijs.org/ <= Web MIDI
+
+Theremin Projects
+=================
+https://www.youtube.com/watch?v=oRhO0MJIl58
 
 https://www.youtube.com/watch?v=CWPtxGrBlU8 <= Arduino Midi Theremin ( Video )
 
