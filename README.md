@@ -157,6 +157,8 @@ https://experiments.withgoogle.com/scan-sequencer <= Experiments with Google
 
 https://experiments.withgoogle.com/instrument-playground <= Google Instruments Playground
 
+http://thereminworld.com/ <= Theremin World
+
 https://www.gaudi.ch/OpenTheremin/ <= Open Theremin Kit 
 
 https://github.com/yeemachine/theremix <= Theremix (Virtual Theremin App) Theremin.app
