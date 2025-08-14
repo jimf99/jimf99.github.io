@@ -60,7 +60,7 @@ https://www.build-electronic-circuits.com/simple-fm-transmitter/ <= Simple FM Tr
 https://github.com/Resinchem/TM1638-MQTT/tree/main?tab=readme-ov-file
 
 
-Stream - Electronics + Computers
+Stream => Electronics + Computers
 ================================
 ## Books / Authors
 ## Forrest M. Mims III
@@ -76,6 +76,8 @@ Stream - Electronics + Computers
 
 
 ## Arduino and Other Stuff
+
+https://www.youtube.com/watch?v=XhUMp5aGGqI <=TM1638
 
 [https://docs.arduino.cc/libraries/adctouch/](https://github.com/martin2250/ADCTouch)
 
