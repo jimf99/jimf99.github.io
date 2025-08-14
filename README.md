@@ -215,7 +215,7 @@ https://www.clearquran.com/downloads/quran-english-translation-clearquran-editio
 Library
 =======
  
-https://webprint.calgarylibrary.ca/print
+[https://webprint.calgarylibrary.ca/print](https://papercut.calgarylibrary.ca/user)
 
 Utils
 ======
