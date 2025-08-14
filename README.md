@@ -43,7 +43,7 @@ https://jimf99.github.io/stream/respect <= Respect
 
 https://agapelanguagecentre.com/
 
-Stream => Electronics - Circuits
+Stream => Electronics + Circuits
 ===============================
 https://www.build-electronic-circuits.com/how-transistors-work/ <= How Transistors Work
 
@@ -97,7 +97,6 @@ https://github.com/dadecoza/arduino-lcd-keypad-shield-games <= Arduino LCD+Keypa
 
 [https://editor.p5js.org/jimf99/sketches/MdV3NQO_E](https://editor.p5js.org/jimf99/sketches/MdV3NQO_E) <=TouchGUI Oscillator
 
-
 https://editor.p5js.org/cacheflowe/sketches/F7GG8vuEy <= P5js WebSerial
 
 [ Shield Games Video](https://www.youtube.com/watch?v=ShZsyHIK6DI)
@@ -127,7 +126,7 @@ https://editor.p5js.org/kenzo/sketches/Bk6Xa7Kgg
 ## James Lewis
 [BaldCorder tricorder](https://www.youtube.com/watch?v=ri2RpTgju-Y&t=766s)
 
-Stream - Electronics + Robotics
+Stream => Electronics + Robotics
 ===============================
 
 https://www.talkingelectronics.com/projects/200TrCcts/200TrCcts.html <= TalkingElectronics (Colin Mitchell) Electronics Projects
@@ -138,11 +137,11 @@ https://wokwi.com/projects/410323062531374081 <=TB6612FNG WokWi Project
 
 https://github.com/danja/TM1638lite <=TM1638 LEDs 7SEG Display 8Buttons
 
-Stream - Arts
+Stream => Arts
 =============
 https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk7pn <= P5js Creative Coding (Beginners Tutorials)
 
-Stream - Music
+Stream => Music
 ==============
 https://editor.p5js.org/bengrosser/sketches/GYPSrhPZe <=P5JS Touch Events
 
@@ -178,7 +177,7 @@ https://webmidijs.org/ <= Web MIDI
 
 Theremin Projects
 =================
-https://www.youtube.com/watch?v=oRhO0MJIl58
+https://www.youtube.com/watch?v=oRhO0MJIl58 <= How to make a Theremin (DIY Project)
 
 https://www.youtube.com/watch?v=CWPtxGrBlU8 <= Arduino Midi Theremin ( Video )
 
