@@ -59,6 +59,8 @@ https://www.build-electronic-circuits.com/simple-fm-transmitter/ <= Simple FM Tr
 
 https://akuzechie.blogspot.com/ <= Anas Kuzechie Projects ** Excellent **
 
+https://www.youtube.com/@AnasKuzechie/playlists <= Anas Kuzechie YouTube
+
 https://github.com/Resinchem/TM1638-MQTT/tree/main?tab=readme-ov-file <= TM1638
 
 https://www.youtube.com/watch?v=KxfhVqne1Qs <= TM1638 
