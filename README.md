@@ -192,6 +192,8 @@ https://www.youtube.com/watch?v=oRhO0MJIl58 <= How to make a Theremin (DIY Proje
 
 https://www.youtube.com/watch?v=CWPtxGrBlU8 <= Arduino Midi Theremin ( Video )
 
+https://www.youtube.com/@NerdMusician/playlists <= NerdMucician (All kinds of MIDI Projects)
+
 https://www.musiconerd.com/i-built-a-midi-theremin/ <= Arduino Midi Theremin (Project)
 
 https://ukebuddy.com/ <= Learn Ukelele with UkeBuddy
