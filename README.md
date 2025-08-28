@@ -24,6 +24,10 @@ https://voyagedallas.com/interview/daily-inspiration-meet-anil-pantangi/
 
 https://www.microsoft.com/en-us/industry/blog/telecommunications/2025/04/08/the-transformative-impact-of-ai-and-generative-ai-on-oss-and-bss-in-telecommunications/
 
+Gaming + Psychology of Gaming & Gamification
+============================================
+https://nicolelazzaro.com/wp-content/uploads/2012/03/4_keys_poster3.jpg
+
 Other Tech
 ==========
 
