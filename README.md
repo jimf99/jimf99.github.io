@@ -151,6 +151,8 @@ https://github.com/danja/TM1638lite <=TM1638 LEDs 7SEG Display 8Buttons
 
 Stream => Arts
 =============
+https://www.youtube.com/watch?v=YMSxv2JDFt0 <= Make a Paper Box
+
 https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk7pn <= P5js Creative Coding (Beginners Tutorials)
 
 Stream => Music
