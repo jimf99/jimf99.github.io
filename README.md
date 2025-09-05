@@ -16,6 +16,8 @@ https://www.microsoft.com/en-us/industry/blog/telecommunications/2025/04/08/the-
 Gaming + Psychology of Gaming & Gamification
 ============================================
 https://nicolelazzaro.com/wp-content/uploads/2012/03/4_keys_poster3.jpg
+* example prompt: 
+ Write an article using the 4 keys to fun concepts, explaining each one in detail.
 
 Other Tech
 ==========
