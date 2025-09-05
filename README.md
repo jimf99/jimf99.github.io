@@ -1,17 +1,5 @@
-  Projects       
-==========
-
-https://jimf99.github.io/9cansPoC.html
-
-https://jimf99.github.io/9CansPoC_1/index.html
-
-https://jimf99.github.io/racer-1a/index.html
-
-https://jimf99.github.io/racer-1b/index.html
-
 S.T.R.E.A.M.
 ============
-
 https://jimf99.github.io/stream/index.html
 
 Stream => Science + Technology
@@ -159,6 +147,7 @@ https://www.youtube.com/watch?v=x1NxkEjfNtI&list=PL0beHPVMklwgMz4Z-mNp4_udo9mjBk
 
 Stream => Music
 ==============
+https://sonic-pi.net <= Sonic Pi (Sam Aaron)
 https://www.youtube.com/watch?v=tVNCJcWyjbc <= Over The Rainbow Tutorial ( Piano )
 
 https://editor.p5js.org/bengrosser/sketches/GYPSrhPZe <=P5JS Touch Events
@@ -256,6 +245,16 @@ https://editor.p5js.org/jimf99/sketches/hDv2gmcI5
 
 https://editor.p5js.org/jimf99/sketches/MdV3NQO_E
 
+Projects       
+=========
+
+https://jimf99.github.io/9cansPoC.html
+
+https://jimf99.github.io/9CansPoC_1/index.html
+
+https://jimf99.github.io/racer-1a/index.html
+
+https://jimf99.github.io/racer-1b/index.html
 
 
 
