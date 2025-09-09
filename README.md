@@ -89,6 +89,8 @@ https://www.youtube.com/watch?v=DPqiIzK97K0 <= Arduino Tutorial Video (FreeCodeC
 
 https://github.com/makeabilitylab <= Makeability Lab
 
+https://cs.washington.edu/ <= Computer Science Paul G. Allen (Washington)
+
 https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-3e661f <= Arduino Theremin
 
 https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/ <= MakeZine (Makers Magazine) Modern Day Internet Telegraph
