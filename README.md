@@ -96,6 +96,10 @@ https://github.com/makeabilitylab <= Makeability Lab
 
 https://cs.washington.edu/ <= Computer Science Paul G. Allen (Washington)
 
+Theremin
+========
+https://electronics.howstuffworks.com/gadgets/audio-music/theremin.htm
+
 https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-3e661f <= Arduino Theremin
 
 https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/ <= MakeZine (Makers Magazine) Modern Day Internet Telegraph
