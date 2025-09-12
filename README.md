@@ -1,6 +1,6 @@
 S.T.R.E.A.M.
 ============
-https://jimf99.github.io/stream/index.html
+https://jimf99.github.io/stream/
 
 https://jimf99.github.io/stream/respect
 
