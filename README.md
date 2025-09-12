@@ -2,13 +2,15 @@ S.T.R.E.A.M.
 ============
 https://jimf99.github.io/stream/index.html
 
-https://jimf99.github.io/stream/respect/index.html
+https://jimf99.github.io/stream/respect
 
 Stream => Science + Technology
 =============================
 
 Artificial Inteligence
 ======================
+https://www.ualberta.ca/en/research/our-research/artificial-intelligence.html
+
 https://www.google.com/search?q=Wonder+Valley+AI+Data+Centre+Park
 
 https://voyagedallas.com/interview/daily-inspiration-meet-anil-pantangi/
