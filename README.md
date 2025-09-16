@@ -67,6 +67,7 @@
 * [Random Nerd Tutorials for Arduinos](https://randomnerdtutorials.com/)
 * [ELEGOO Arduino Super Starter Kit Tutorials Playlist](https://youtube.com/playlist?list=PLWdhcCYoOsiJE1DS7OhPfwrHrGlUED6Az)
 * [Arduino LCD + Keypad Shield Games on GitHub](https://github.com/dadecoza/arduino-lcd-keypad-shield-games)
+* [Arduino TFT eSPI TouchScreen](https://wokwi.com/projects/327361970806194770)
 * [TouchGUI Oscillator P5.js Sketch](https://editor.p5js.org/jimf99/sketches/MdV3NQO_E)
 * [P5.js WebSerial Sketch by Cacheflowe](https://editor.p5js.org/cacheflowe/sketches/F7GG8vuEy)
 * [Arduino LCD Shield Games Video](https://www.youtube.com/watch?v=ShZsyHIK6DI)
