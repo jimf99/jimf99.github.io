@@ -123,9 +123,10 @@
 * [Notes and Volts Blog](https://www.notesandvolts.com/)
 * [Web MIDI JS Library](https://webmidijs.org/)
 
-### Theremin Projects
+### Music Projects
 * [DIY Theremin Project Video](https://www.youtube.com/watch?v=oRhO0MJIl58)
 * [Arduino MIDI Theremin Video](https://www.youtube.com/watch?v=CWPtxGrBlU8)
+* [ThereMino (Arduino Theremin)](https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-3e661f)
 * [NerdMusician YouTube Playlists (MIDI Projects)](https://www.youtube.com/@NerdMusician/playlists)
 * [Project: I Built a MIDI Theremin](https://www.musiconerd.com/i-built-a-midi-theremin/)
 * [UkeBuddy: Learn Ukulele](https://ukebuddy.com/)
