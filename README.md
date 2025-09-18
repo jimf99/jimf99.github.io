@@ -104,6 +104,7 @@
 
 ## Music
 * [Sonic Pi: The Live Coding Music Synth](https://sonic-pi.net)
+* [DIY Synths](https://github.com/Atarity/diy-synths)
 * [Over The Rainbow Piano Tutorial](https://www.youtube.com/watch?v=tVNCJcWyjbc)
 * [P5.js Touch Events Sketch by Ben Grosser](https://editor.p5js.org/bengrosser/sketches/GYPSrhPZe)
 * [Neo-Chord DIY MIDI Controller](https://www.instructables.com/Neo-Chord-DIY-MIDI-Controller-for-Playing-Chords/)
