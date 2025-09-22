@@ -1,7 +1,7 @@
 <html>
   <body><h1 id="are-you-ready-">Are you Ready ?</h1>
-<h2 id="before-the-rapture">Before the Rapture</h2>
-<h3 id="are-you-rapture-ready-">Are you Rapture Ready ?</h3>
+<hr>
+    <h3 id="are-you-rapture-ready-">Are you Rapture Ready ?</h3>
 <p><a href="https://www.youtube.com/watch?v=0vqVrIYkfrg">Max Lucado - The Rapture, Tribulation, and Antichrist
 </a></p>
 <p><a href="https://www.youtube.com/watch?v=Ta5c2uC343A">Why MILLIONS Will Miss the Rapture - But You Don’t Have To! | Max Lucado</a></p>
