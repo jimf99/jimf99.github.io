@@ -62,6 +62,7 @@
 * [Makeability Lab on GitHub](https://github.com/makeabilitylab)
 * [University of Washington's Paul G. Allen School of Computer Science](https://cs.washington.edu/)
 * [How a Theremin Works](https://electronics.howstuffworks.com/gadgets/audio-music/theremin.htm)
+* [Open Theremin Pproject](https://github.com/GaudiLabs/OpenThereminV4)
 * [DIY Arduino Theremin Project](https://projecthub.arduino.cc/tdelatorre/theremino-a-theremin-made-with-arduino-3e661f)
 * [Makezine's Modern Day Internet Telegraph Project](https://makezine.com/projects/use-raspberry-pi-modern-day-telegraph/)
 * [Random Nerd Tutorials for Arduinos](https://randomnerdtutorials.com/)
