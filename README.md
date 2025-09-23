@@ -143,6 +143,7 @@
 ---
 
 ## Culture - Beliefs
+* [First Nations Creation Myths](https://google.com?q=first+nations+creation+myths)
 * [Christianity on Wikipedia](https://en.wikipedia.org/wiki/Christianity)
 * [Judaism on Wikipedia](https://en.wikipedia.org/wiki/Judaism)
 * [Islam on Wikipedia](https://en.wikipedia.org/wiki/Islam)
