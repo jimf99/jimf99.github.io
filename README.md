@@ -142,9 +142,10 @@
 
 ---
 
-## Culture - Beliefs
+## Culture - Beliefs - First Nations
 * [First Nations Creation Myths](https://google.com?q=first+nations+creation+myths)
 * [Orange Shirt Day - Every Child Matters](https://www.savethechildren.ca/every-child-matters-the-origin-of-orange-shirt-day/)
+## Culture - Beliefs
 * [Christianity on Wikipedia](https://en.wikipedia.org/wiki/Christianity)
 * [Judaism on Wikipedia](https://en.wikipedia.org/wiki/Judaism)
 * [Islam on Wikipedia](https://en.wikipedia.org/wiki/Islam)
