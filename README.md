@@ -10,7 +10,8 @@
 ## Science + Technology
 ### Amateur Radio
 * [MorseDuino - Budd Churchward](http://wb7fhc.com/store/p1/Morseduino_2_CW_Decoder_Kit.html)
-* 
+* [Budd Churchward - Website](http://wb7fhc.com/index.html)
+
 ### Artificial Intelligence
 * [University of Alberta's Research in Artificial Intelligence](https://www.ualberta.ca/en/research/our-research/artificial-intelligence.html)
 * [Google Search: Wonder Valley AI Data Centre Park](https://www.google.com/search?q=Wonder+Valley+AI+Data+Centre+Park)
