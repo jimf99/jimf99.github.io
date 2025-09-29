@@ -89,6 +89,7 @@
 * [Notes and Volts Blog](https://www.notesandvolts.com/)
 * [Sketch by Kenzo](https://editor.p5js.org/kenzo/sketches/Bk6Xa7Kgg)
 * [DIY Theremin Build - Noisette](https://www.youtube.com/watch?v=rqtBb37QE2M)
+* [Arduino 1d Pong](https://www.instructables.com/Arduino-LED-Pong-Game-a-Fun-Electronics-Project/)
 
 ### James Lewis
 * [BaldCorder Tricorder Project Video](https://www.youtube.com/watch?v=ri2RpTgju-Y&t=766s)
