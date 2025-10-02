@@ -15,6 +15,8 @@
 ### Anthropology + Archaeology
 *  [Antrhopology](https://en.wikipedia.org/wiki/Anthropology)
 *  [Archaeology](https://en.wikipedia.org/wiki/Archaeology)
+*  ** [Proto-Writing / Symbols](https://www.zmescience.com/science/news-science/ice-age-32-symbols/)
+*  
 
 ### Amateur Radio
 *  [Practice Morse Code](https://www.tinkercad.com/things/5j9R1J0DAa9-morse-decode-encode)
