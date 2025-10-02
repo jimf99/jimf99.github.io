@@ -9,7 +9,8 @@
 
 ## Science + Technology
 ### Amateur Radio
-* [MorseDuino - Budd Churchward](http://wb7fhc.com/store/p1/Morseduino_2_CW_Decoder_Kit.html)
+*  [Practice Morse Code](https://www.tinkercad.com/things/5j9R1J0DAa9-morse-decode-encode)
+*  [MorseDuino - Budd Churchward](http://wb7fhc.com/store/p1/Morseduino_2_CW_Decoder_Kit.html)
 * [Budd Churchward - Website](http://wb7fhc.com/index.html)
 
 ### Artificial Intelligence
