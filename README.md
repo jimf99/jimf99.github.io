@@ -8,8 +8,13 @@
 ---
 
 ## Science + Technology
+
 ### Astronomy
 *  [Astronomy](https://en.wikipedia.org/wiki/Astronomy)
+
+## Archaeology + Anthropology
+*  [Archaeology](https://en.wikipedia.org/wiki/Archaeology)
+*  [Antrhopology](https://en.wikipedia.org/wiki/Anthropology)
 
 ### Amateur Radio
 *  [Practice Morse Code](https://www.tinkercad.com/things/5j9R1J0DAa9-morse-decode-encode)
