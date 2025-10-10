@@ -1,73 +1,82 @@
-int ditLen=10;
-int dahLen=30;
+/*
+*/
+
+// Global Variables
+int ditLen=100;
+int dahLen=3*ditLen;
 boolean Bin[8];
 int key1Out=5;
+int toneFreq=110*6;
+int spkrPin=3;
 
-#define SPEAKER_PIN 3
-
-// The sound-producing function
-void beep (unsigned char speakerPin, int frequencyInHertz, long timeInMilliseconds)
-{ // http://web.media.mit.edu/~leah/LilyPad/07_sound_code.html
-  int  x;
-  long delayAmount = (long)(1000000 / frequencyInHertz);
-  long loopTime = (long)((timeInMilliseconds * 1000) / (delayAmount * 2));
-  pinMode(SPEAKER_PIN, OUTPUT);
-  for (x = 0; x < loopTime; x++) {
-    digitalWrite(speakerPin, HIGH);
-    delayMicroseconds(delayAmount);
-    digitalWrite(speakerPin, LOW);
-    delayMicroseconds(delayAmount);
-  }
-  pinMode(SPEAKER_PIN, INPUT);
-}
-
-void setup() {
-  pinMode(key1Out, OUTPUT);
-}
-
-
+// Functions
 void sendDit() {
-  for(int i=0; i<ditLen*10; i++) {
+  tone(spkrPin, toneFreq);
+  for(int i=0; i<ditLen; i++) {
     digitalWrite(key1Out,HIGH);
     delay(1);
   }
   digitalWrite(key1Out,LOW);
-  beep(SPEAKER_PIN, 440,ditLen*10);
+  noTone(spkrPin);
   delay(5);
 }
 
 void sendDah() {
-  for(int i=0; i<dahLen*10; i++) {
+  tone(spkrPin, toneFreq);
+  for(int i=0; i<dahLen; i++) {
     digitalWrite(key1Out,HIGH);
     delay(1);
   }
   digitalWrite(key1Out,LOW);
-  beep(SPEAKER_PIN, 440,dahLen*10);
+  noTone(spkrPin);
   delay(5);
 }
 
 void sendBin() {
   for(int i=0; i<=4; i++) {
-    if(Bin[i]==0) {sendDit();}
-    if(Bin[i]==1) {sendDah();}
+    sendDitOrDah(Bin[i]);
   }
 }
 
-void loop()
-{
+void sendDitOrDah(int ditDah) {
+  if(ditDah==0) {sendDit();}
+  if(ditDah==1) {sendDah();}
+}
+
+void send5(int b1, int b2, int b3, int b4, int b5) {
+  sendDitOrDah(b1);
+  sendDitOrDah(b2);
+  sendDitOrDah(b3);
+  sendDitOrDah(b4);
+  sendDitOrDah(b5);
+  int val=0;
+  val=b1+b2*2+b3*4+b4*8+b5*16;
+  Serial.print(b1);
+  Serial.print(b2);
+  Serial.print(b3);
+  Serial.print(b4);
+  Serial.print(b5);
+  Serial.print(" ");
+  Serial.print(val);
+  Serial.println("");
+}
+
+// Setup
+void setup() {
+  pinMode(key1Out, OUTPUT);
+  pinMode(spkrPin, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("");
+}
+
+// Main Loop
+void loop() {
   delay(50);
-  Bin[0]=random(0,2);
-  Bin[1]=random(0,2);
-  Bin[2]=random(0,2);
-  Bin[3]=random(0,2);
-  Bin[4]=random(0,2);
-  sendBin();
-  delay(200);
-  Bin[0]=random(0,2);
-  Bin[1]=random(0,2);
-  Bin[2]=random(0,2);
-  Bin[3]=random(0,2);
-  Bin[4]=random(0,2);
-  sendBin();
+  int d1=random(0,2);
+  int d2=random(0,2);
+  int d3=random(0,2);
+  int d4=random(0,2);
+  int d5=random(0,2);
+  send5(d1,d2,d3,d4,d5);
 }
 

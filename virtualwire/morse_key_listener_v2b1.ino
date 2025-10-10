@@ -55,6 +55,14 @@ char decodeBaudot(uint8_t baudotByte) {
   return 0; // Invalid Baudot code
 }
 
+int Bin[9];
+void d2b(int num) {
+  for(int i=0; i<5; i++) {
+    Bin[i] = (num % 2 == 1);
+    num = num / 2;
+  }
+}
+
 // Setup
 void setup() {
   Serial.begin(9600);
@@ -69,8 +77,8 @@ void loop() {
  if(d2==1 && startMs==0) {startMs=millis();}
  if(d2==0 && keyUpMs==0) {keyUpMs=millis();}
  digitalWrite(led1Out,d2);
-  if(d2==1) {tone(spkrOut,440);}
-  if(d2==0) {noTone(spkrOut);}
+  if(d2==0) {tone(spkrOut,440);}
+  if(d2==1) {noTone(spkrOut);}
  if(d2 != state) {
    lenMs=millis()-startMs;
    if(lenMs>0) {
@@ -89,13 +97,17 @@ void loop() {
      int val=0;
      int pwr=1;
      for(int i=1; i<=5; i++) {
-       if(ditDas[i]==0) {Serial.print("0 ");}
-       if(ditDas[i]==1) {Serial.print("1 ");val=val+pwr;}
+       val=val+ditDas[i]*pwr;
        pwr=pwr*2;
      }
      Serial.print(val);
      Serial.print(" ");
      Serial.print(char(decodeBaudot(val)));
+     Serial.print(" ");
+     d2b(val);
+     for(int i=0; i<5; i++) {
+       Serial.print(Bin[4-i]);
+     }
      Serial.println("");
      ctr=0;
    }
