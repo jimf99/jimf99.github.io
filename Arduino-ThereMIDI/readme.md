@@ -11,6 +11,6 @@
   * https://github.com/martin2250/ADCTouch
   
  * Bonus Material
+   * https://github.com/silveirago/Theremidi 
    * https://youtu.be/rqtBb37QE2M?si=Pc9tsCR1l8f_ZxsS
    * https://teddavis.org/p5live/
-
