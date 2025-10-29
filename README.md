@@ -38,7 +38,9 @@
 * [GoBASIC Programming](https://gotbasic.com/)
 * [Interview with Forrest M. Mims III (Part 1)](https://www.youtube.com/watch?v=hUlzdFSNMkk)
 * [Audio from 20Hz to 20Khz](https://www.youtube.com/watch?v=qNf9nzvnd1k)
-
+* [Swift Programming Online](https://swiftfiddle.com/)
+* [Swift Programming Language](https://swift.org/)
+* 
 ---
 
 ## Respect + Friendships
