@@ -1,7 +1,2 @@
 === Trivia Game ==
-<html>
-<hr>
-<iframe width="100%" height="300" frameborder="0"
-  src="https://swiftfiddle.com/oxdyechzi5gwdbc2lnwflyvoli/embedded/">
-</iframe>
-</html>
+* [Trivia Game](https://swiftfiddle.com/oxdyechzi5gwdbc2lnwflyvoli/embedded/)
