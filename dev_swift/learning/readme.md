@@ -1,2 +1,2 @@
-* [Swift Fiddle](https:/swiftFiddle.com)
+* [Swift Fiddle](https://swiftFiddle.com)
 * [Swift.org](https://Swift.org)
