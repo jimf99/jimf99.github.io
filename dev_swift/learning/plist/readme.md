@@ -109,11 +109,12 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
 
 By following these steps, you should have a foundational macOS application for managing `plist` files using Swift.
 
+
 <hr>
 === Another Attempt ===
 <hr>
 
-````Swift
+```Swift
 
 import Foundation
 
@@ -213,3 +214,5 @@ print(updatedUser)
 
 // Delete user
 userManager.deleteUser(username: "exampleUser")
+
+```
