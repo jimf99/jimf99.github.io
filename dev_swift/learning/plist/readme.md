@@ -109,3 +109,40 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
 
 By following these steps, you should have a foundational macOS application for managing `plist` files using Swift.
 
+<hr>
+=== Another Attempt ===
+<hr>
+import Foundation
+
+// Define the User data model
+struct User: Codable {
+    var name: String
+    var age: Int
+}
+
+func encodeUser(_ user: User) throws -> Data {
+    let encoder = PropertyListEncoder()
+    encoder.outputFormat = .binary // Set to .binary format
+    return try encoder.encode(user)
+}
+
+func decodeUser(from data: Data) throws -> User {
+    let decoder = PropertyListDecoder()
+    return try decoder.decode(User.self, from: data)
+}
+
+do {
+    let user = User(name: "Alice", age: 30)
+    
+    // Encode the user
+    let plistData = try encodeUser(user)
+    
+    // Decode the user
+    let loadedUser = try decodeUser(from: plistData)
+    
+    // Print the loaded user
+    print(loadedUser)
+} catch {
+    print("Error: \(error.localizedDescription)")
+}
+
