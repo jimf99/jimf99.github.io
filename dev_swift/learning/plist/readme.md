@@ -113,38 +113,101 @@ By following these steps, you should have a foundational macOS application for m
 === Another Attempt ===
 <hr>
 
-````Swift
-import Foundation
+````Swiftimport Foundation
 
-// Define the User data model
-struct User: Codable {
-    var name: String
-    var age: Int
+struct User {
+    var username: String
+    var passwordHash: String
+    var email: String
+    var createdDate: Date
+    var lastLoginDate: Date
+    var userPrivileges: [String]
+    var additionalInfo: [String: Any]
 }
 
-func encodeUser(_ user: User) throws -> Data {
-    let encoder = PropertyListEncoder()
-    encoder.outputFormat = .binary // Set to .binary format
-    return try encoder.encode(user)
-}
+class UserManager {
+    private let fileURL: URL
 
-func decodeUser(from data: Data) throws -> User {
-    let decoder = PropertyListDecoder()
-    return try decoder.decode(User.self, from: data)
-}
-
-do {
-    let user = User(name: "Alice", age: 30)
+    init() {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        fileURL = documentDirectory.appendingPathComponent("users.plist")
+    }
     
-    // Encode the user
-    let plistData = try encodeUser(user)
-    
-    // Decode the user
-    let loadedUser = try decodeUser(from: plistData)
-    
-    // Print the loaded user
-    print(loadedUser)
-} catch {
-    print("Error: \(error.localizedDescription)")
+    // Read Users
+    func readUsers() -> [User]? {
+        guard let data = try? Data(contentsOf: fileURL) else { return nil }
+        if let plistArray = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [[String: Any]] {
+            return plistArray.compactMap { dict -> User? in
+                guard 
+                    let username = dict["username"] as? String,
+                    let passwordHash = dict["passwordHash"] as? String,
+                    let email = dict["email"] as? String,
+                    let createdDate = dict["createdDate"] as? Date,
+                    let lastLoginDate = dict["lastLoginDate"] as? Date,
+                    let userPrivileges = dict["userPrivileges"] as? [String],
+                    let additionalInfo = dict["additionalInfo"] as? [String: Any]
+                else { return nil }
+                
+                return User(username: username, passwordHash: passwordHash, email: email, createdDate: createdDate, lastLoginDate: lastLoginDate, userPrivileges: userPrivileges, additionalInfo: additionalInfo)
+            }
+        }
+        return nil
+    }
+
+    // Write Users
+    func writeUsers(users: [User]) {
+        let usersArray: [[String: Any]] = users.map { user in
+            [
+                "username": user.username,
+                "passwordHash": user.passwordHash,
+                "email": user.email,
+                "createdDate": user.createdDate,
+                "lastLoginDate": user.lastLoginDate,
+                "userPrivileges": user.userPrivileges,
+                "additionalInfo": user.additionalInfo
+            ]
+        }
+        
+        if let data = try? PropertyListSerialization.data(fromPropertyList: usersArray, format: .xml, options: 0) {
+            try? data.write(to: fileURL)
+        }
+    }
+
+    // Update User
+    func updateUser(updatedUser: User) {
+        var users = readUsers() ?? []
+        if let index = users.firstIndex(where: { $0.username == updatedUser.username }) {
+            users[index] = updatedUser
+            writeUsers(users: users)
+        }
+    }
+
+    // Delete User
+    func deleteUser(username: String) {
+        var users = readUsers() ?? []
+        users.removeAll { $0.username == username }
+        writeUsers(users: users)
+    }
 }
 
+// Usage Examples
+
+let userManager = UserManager()
+
+// Creating a new user
+let newUser = User(username: "exampleUser", passwordHash: "hashed_password_here", email: "example@example.com", createdDate: Date(), lastLoginDate: Date(), userPrivileges: ["admin"], additionalInfo: ["PhoneNumber": "+123456789"])
+userManager.writeUsers(users: [newUser])
+
+// Read users
+if let users = userManager.readUsers() {
+    print(users)
+}
+
+// Update user
+var updatedUser = newUser
+updatedUser.lastLoginDate = Date()
+userManager.updateUser(updatedUser: updatedUser)
+print(updatedUser)
+
+// Delete user
+userManager.deleteUser(username: "exampleUser")
