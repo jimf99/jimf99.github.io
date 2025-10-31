@@ -113,7 +113,9 @@ By following these steps, you should have a foundational macOS application for m
 === Another Attempt ===
 <hr>
 
-````Swiftimport Foundation
+````Swift
+
+import Foundation
 
 struct User {
     var username: String
