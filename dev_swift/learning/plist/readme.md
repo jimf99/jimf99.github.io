@@ -112,6 +112,8 @@ By following these steps, you should have a foundational macOS application for m
 <hr>
 === Another Attempt ===
 <hr>
+
+````Swift
 import Foundation
 
 // Define the User data model
