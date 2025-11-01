@@ -114,7 +114,7 @@ By following these steps, you should have a foundational macOS application for m
 === Another Attempt ===
 <hr>
 
-```Swift
+````swift
 
 import Foundation
 
@@ -215,4 +215,4 @@ print(updatedUser)
 // Delete user
 userManager.deleteUser(username: "exampleUser")
 
-```
+````
