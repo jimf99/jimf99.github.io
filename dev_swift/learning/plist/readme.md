@@ -219,3 +219,44 @@ print(updatedUser)
 userManager.deleteUser(username: "exampleUser")
 
 ````
+
+<hr>
+=== Another Example ===
+<hr>
+````swift
+import Foundation
+
+let dataToSave: [String: Any] = [
+    "username": "userName1",
+    "retryCount": 3,
+    "enabled": true
+]
+
+let fileURL = URL(fileURLWithPath: "config.plist")
+
+func writePlist() {
+    do {
+        let plistData = try PropertyListSerialization.data(fromPropertyList: dataToSave, format: .xml, options: 0)
+        try plistData.write(to: fileURL)
+        print("Wrote plist to \(fileURL.path)")
+    } catch {
+        print("Error writing plist: \(error)")
+    }
+}
+
+func readPlist() {
+    do {
+        let data = try Data(contentsOf: fileURL)
+        if let plist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] {
+            print("Read plist:", plist)
+        }
+    } catch {
+        print("Error reading plist: \(error)")
+    }
+}
+
+writePlist()
+readPlist()
+
+
+````
