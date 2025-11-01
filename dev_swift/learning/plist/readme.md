@@ -223,7 +223,9 @@ userManager.deleteUser(username: "exampleUser")
 <hr>
 === Another Example ===
 <hr>
+
 ````swift
+
 import Foundation
 
 let dataToSave: [String: Any] = [
