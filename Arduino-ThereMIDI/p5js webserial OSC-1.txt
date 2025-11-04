@@ -1,0 +1,119 @@
+To create a `p5.js` application that receives OSC (Open Sound Control) messages over the Web Serial API, we will leverage both the `p5.js` library for rendering graphics and a Web Serial API for reading data from a connected serial device.
+
+### Steps to Build the Application
+
+1. **Set Up Your Project:**
+
+   Make sure you have a basic HTML file with references to `p5.js` and a custom script where we will write our application logic.
+
+2. **Create HTML File:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js OSC Receiver with Web Serial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="sketch.js"></script>
+</head>
+<body>
+</body>
+</html>
+```
+
+3. **Create JavaScript File (`sketch.js`):**
+
+Here’s a basic example of how to set up a `p5.js` sketch that receives OSC messages via the Web Serial API:
+
+```javascript
+let serialPort;
+let reader;
+let decoder;
+
+function setup() {
+    createCanvas(400, 400);
+    background(200);
+
+    // Set up the Web Serial API connection on a button click
+    let connectButton = createButton('Connect to Serial Device');
+    connectButton.position(10, 10);
+    connectButton.mousePressed(connectToSerial);
+    
+    // Initialize the serial decoding
+    decoder = new TextDecoder();
+}
+
+async function connectToSerial() {
+    if ('serial' in navigator) {
+        // Prompt user to select a serial port
+        serialPort = await navigator.serial.requestPort();
+        
+        // Open the serial port at 9600 baud rate
+        await serialPort.open({ baudRate: 9600 });
+
+        // Read data from the serial port
+        readSerialData();
+    } else {
+        console.log('Web Serial API not supported in this browser.');
+    }
+}
+
+async function readSerialData() {
+    // Create a reader
+    reader = serialPort.readable.getReader();
+
+    try {
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+                break; // If the stream is closed, exit the loop
+            }
+            if (value) {
+                const message = decoder.decode(value);
+                processMessage(message);
+            }
+        }
+    } catch (error) {
+        console.error('Error reading from serial port:', error);
+    } finally {
+        reader.releaseLock();
+    }
+}
+
+function processMessage(message) {
+    console.log('Received OSC Message:', message);
+    // Do something with the message received
+    // For example, you could display it on the canvas
+    background(200);
+    textSize(32);
+    fill(0);
+    text(message, 10, height / 2); // Display the message in the middle of the canvas
+}
+
+function draw() {
+    // This space can be used to update visuals based on received messages if necessary.
+}
+```
+
+### Breakdown of the Code:
+
+1. **Setting Up**: We create a simple `p5.js` canvas and a button to initiate the connection to the serial device.
+2. **Connecting to Serial**: The `connectToSerial` function prompts the user to choose a device and opens the serial port.
+3. **Reading Data**: The `readSerialData` function continuously reads data from the serial port. When data is received, it decodes it and processes it.
+4. **Processing Messages**: The `processMessage` function can be modified to handle the OSC messages as needed. In the example, it simply displays the received message on the `p5.js` canvas.
+5. **Visual Feedback**: The `draw` function can be used to continuously update visuals based on the received data; however, in this example, it's kept empty.
+
+### Important Notes:
+
+- **Browser Compatibility**: The Web Serial API is supported in latest versions of Chrome and Edge. Make sure you test it in a compatible browser.
+- **HTTPS Requirement**: The Web Serial API requires a secure context (HTTPS), so you'll need to serve your files over HTTPS or localhost.
+- **Permissions**: Users will have to grant permissions for the web application to access the serial ports.
+
+### Running the Application:
+1. Create the HTML file and the JavaScript file.
+2. Open the HTML file in your compatible browser.
+3. Click the "Connect to Serial Device" button to select your serial device.
+4. Ensure your device is sending OSC messages through the serial connection, and you should see the messages displayed on the canvas!
+

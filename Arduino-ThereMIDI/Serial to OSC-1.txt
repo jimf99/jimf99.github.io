@@ -1,0 +1,74 @@
+To create a Serial to OSC (Open Sound Control) bridge in Python on macOS, you'll need to use a couple of libraries: `pySerial` for communicating through serial ports and `python-osc` for sending OSC messages. 
+
+Before you get started, make sure to install the required libraries. You can do so using pip:
+
+```bash
+pip install pyserial python-osc
+```
+
+Here’s a basic example of a Python script that reads data from a serial port and sends it as OSC messages:
+
+```python
+import serial
+import time
+from pythonosc import udp_client
+
+# Configure your serial port and OSC settings
+SERIAL_PORT = '/dev/tty.usbmodemXXXX'  # Replace with the correct port for your device
+BAUD_RATE = 9600
+
+OSC_IP = "127.0.0.1"              # IP address to send OSC messages to
+OSC_PORT = 8000                   # Port to send OSC messages to
+
+def main():
+    # Initialize OSC client
+    client = udp_client.SimpleUDPClient(OSC_IP, OSC_PORT)
+
+    # Setup serial connection
+    try:
+        ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
+        print(f"Connected to {SERIAL_PORT} at {BAUD_RATE} baud.")
+    except Exception as e:
+        print(f"Error connecting to the serial port: {e}")
+        return
+
+    # Read from serial and send data via OSC
+    try:
+        while True:
+            if ser.in_waiting > 0:
+                serial_data = ser.readline().decode('utf-8').strip()  # Read a line of input from the serial
+                print(f"Received from serial: {serial_data}")
+
+                # Send the data as an OSC message
+                client.send_message("/sensor/data", serial_data)  # Change the OSC address according to your needs
+                print(f"Sent OSC message: /sensor/data {serial_data}")
+
+            time.sleep(0.1)  # Add some delay to avoid high CPU usage
+    except KeyboardInterrupt:
+        print("Exiting...")
+    finally:
+        ser.close()
+
+if __name__ == "__main__":
+    main()
+```
+
+### Explanation of the Code:
+1. **Imports**: Required libraries are imported at the beginning (`serial` for serial communication and `udp_client` from `pythonosc` for OSC functionality).
+2. **Configuration**: You define the serial port, baud rate, OSC IP address, and OSC port. Don’t forget to replace `/dev/tty.usbmodemXXXX` with the correct path to your serial device.
+3. **Initialization**: The OSC client is created. The serial connection is established using the provided configuration.
+4. **Main Loop**: The script enters a loop reading from the serial port. When data is received, it’s printed to the console and sent as an OSC message.
+5. **Handling Exits**: The program can be terminated gracefully using a keyboard interrupt (`Ctrl+C`), and it ensures the serial port is closed properly.
+
+### Running the Program:
+1. Connect your device to the serial port.
+2. Ensure that no other program is using the serial port.
+3. Replace the `SERIAL_PORT` variable with the appropriate device identifier for your setup.
+4. Run the script with Python, and it should start reading data from the serial port and sending it via OSC.
+
+### Adjustments:
+You might need to tweak the OSC address (`/sensor/data`) and the data processing portion based on the specific requirements of your application.
+
+### Troubleshooting:
+- If you don’t see any data appearing, check the serial connection settings (baud rate, port).
+- Make sure your OSC receiver is up and running and listening on the defined OSC IP and port.
