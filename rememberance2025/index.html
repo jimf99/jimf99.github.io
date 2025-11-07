@@ -1,23 +1,170 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Rememberance 2025</title>
-    <h1>Rememberance 2025</h1>
-  </head>
+<head>
+    <title>Remembrance 2025</title>
+    <style>
+        /* CSS for the Slideshow */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #8c0000; /* A color often associated with remembrance */
+            margin-bottom: 20px;
+        }
+
+        .slideshow-container {
+            max-width: 800px; /* Max width for the container */
+            position: relative;
+            margin: auto;
+            border: 5px solid #ccc;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+            width: 100%;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: auto;
+            display: block; /* Removes extra space below image */
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background with a little opacity */
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
 <body>
-    <img src="https://jimf99.github.io/rememberance2025/20251105_135913.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251105_135914.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251105_135917.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251105_135918.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251105_135924.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251105_135926.jpg"></img>
-  <hr>
-  <img src="https://jimf99.github.io/rememberance2025/20251106_163032.jpg"></img>
-  <hr>
+    <h1>Remembrance 2025</h1>
+    
+    <div class="slideshow-container">
+
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135913.jpg">
+        </div>
+
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135914.jpg">
+        </div>
+
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135917.jpg">
+        </div>
+        
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135918.jpg">
+        </div>
+        
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135924.jpg">
+        </div>
+        
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251105_135926.jpg">
+        </div>
+        
+        <div class="mySlides">
+            <img src="https://jimf99.github.io/rememberance2025/20251106_163032.jpg">
+        </div>
+        
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+    </div>
+    
+    <script>
+        let slideIndex = 0; // Start at the first slide
+        let slides = document.getElementsByClassName("mySlides");
+
+        // Function to move to the next slide
+        function showSlides() {
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            
+            // Increment the index and wrap around if necessary
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            
+            // Display the current slide
+            slides[slideIndex - 1].style.display = "block";
+            
+            // Auto-advance after 5 seconds (5000 milliseconds)
+            setTimeout(showSlides, 5000); 
+        }
+
+        // Function to handle manual button clicks
+        function plusSlides(n) {
+            // Stop the auto-advance for a moment after a manual click
+            clearTimeout(autoAdvanceTimeout);
+            
+            slideIndex += n;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            } else if (slideIndex < 1) {
+                slideIndex = slides.length;
+            }
+            
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            // Display the new slide
+            slides[slideIndex - 1].style.display = "block";
+            
+            // Resume auto-advance after a 5-second pause
+            autoAdvanceTimeout = setTimeout(showSlides, 5000); 
+        }
+
+        // Initialize the slideshow and start the auto-advance timer
+        showSlides();
+        let autoAdvanceTimeout; // Variable to hold the timer ID
+
+    </script>
+    
+    <footer><center><b>LEST WE FORGET 2025</b></center></footer>
 </body>
-  <footer><center><bold>LEST WE FORGET 2025</bold></center></footer>
 </html>
