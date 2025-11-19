@@ -15,4 +15,7 @@
    * https://youtu.be/rqtBb37QE2M?si=Pc9tsCR1l8f_ZxsS
    * https://teddavis.org/p5live/
    * https://www.instructables.com/MIDI-Sonar-Theremin/
+   * https://github.com/peterbalch/MIDI-Theremin
 
+
+   
