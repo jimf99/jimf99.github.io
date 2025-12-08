@@ -6,4 +6,8 @@
 * https://randomnerdtutorials.com/esp32-websocket-server-arduino/
 * https://randomnerdtutorials.com/esp32-access-point-ap-web-server/
 
+** Other/Misc Bonus Stuff
+  * https://randomnerdtutorials.com/esp32-webserial-library/
+
+
 
