@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>64x32 LED Matrix Timer Simulator</title>
+<style>
+body {
+  background:#111;
+  color:#ddd;
+  font-family:Arial, sans-serif;
+  display:flex;
+  gap:20px;
+  padding:20px;
+}
+
+#panel {
+  background:#1e1e1e;
+  padding:15px;
+  border-radius:10px;
+  width:260px;
+}
+
+label { display:block; margin-top:10px; font-size:14px; }
+input, select, button {
+  width:100%;
+  margin-top:5px;
+}
+
+canvas {
+  image-rendering: pixelated;
+  background:#000;
+  border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix" width="64" height="32"></canvas>
+
+<div id="panel">
+  <h3>Timer Control</h3>
+
+  <label>Duration (seconds)</label>
+  <input type="number" id="duration" value="180">
+
+  <button onclick="start()">▶ Start</button>
+  <button onclick="pause()">⏸ Pause</button>
+  <button onclick="reset()">🔄 Reset</button>
+  <button onclick="flip()">🔁 Flip</button>
+
+  <label>Font</label>
+  <select id="font">
+    <option value="bold">FreeSansBold</option>
+    <option value="sans">FreeSans</option>
+    <option value="mono">Monospace</option>
+    <option value="retro">Org_01 (retro)</option>
+    <option value="tiny">Picopixel</option>
+  </select>
+
+  <label>Letter Spacing</label>
+  <input type="range" id="spacing" min="-2" max="6" value="3">
+
+  <label>Brightness</label>
+  <input type="range" id="brightness" min="50" max="255" value="220">
+</div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+const SCALE = 10;
+canvas.style.width = 64 * SCALE + "px";
+canvas.style.height = 32 * SCALE + "px";
+
+let totalSeconds = 180;
+let remaining = totalSeconds;
+let running = false;
+let flipped = false;
+
+const thresholds = [
+  { seconds: 60,  color: [255,0,0] },
+  { seconds: 120, color: [255,255,0] }
+];
+const defaultColor = [0,255,0];
+
+function start() {
+  totalSeconds = parseInt(duration.value);
+  if (!running) running = true;
+}
+function pause() { running = false; }
+function reset() {
+  remaining = parseInt(duration.value);
+  running = false;
+}
+function flip() { flipped = !flipped; }
+
+function getColor() {
+  for (let t of thresholds) {
+    if (remaining <= t.seconds) return t.color;
+  }
+  return defaultColor;
+}
+
+function draw() {
+  ctx.clearRect(0,0,64,32);
+
+  const [r,g,b] = getColor();
+  const brightness = brightnessInput.value / 255;
+  ctx.fillStyle = `rgb(${r*brightness},${g*brightness},${b*brightness})`;
+
+  let mins = Math.floor(remaining / 60);
+  let secs = remaining % 60;
+  let text = `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+
+  let fontSel = font.value;
+  let fontSize = 18;
+
+  if (fontSel === "bold") ctx.font = "bold 18px Arial";
+  if (fontSel === "sans") ctx.font = "18px Arial";
+  if (fontSel === "mono") ctx.font = "18px monospace";
+  if (fontSel === "retro") ctx.font = "bold 16px Courier";
+  if (fontSel === "tiny") ctx.font = "12px monospace";
+
+  ctx.textBaseline = "middle";
+
+  const spacing = parseInt(spacingInput.value);
+  let x = (64 - text.length * (8 + spacing)) / 2;
+  let y = 16;
+
+  if (flipped) {
+    ctx.save();
+    ctx.translate(64,32);
+    ctx.rotate(Math.PI);
+  }
+
+  for (let ch of text) {
+    ctx.fillText(ch, x, y);
+    x += 8 + spacing;
+  }
+
+  if (flipped) ctx.restore();
+}
+
+setInterval(() => {
+  if (running && remaining > 0) remaining--;
+}, 1000);
+
+function loop() {
+  draw();
+  requestAnimationFrame(loop);
+}
+
+const duration = document.getElementById("duration");
+const font = document.getElementById("font");
+const spacingInput = document.getElementById("spacing");
+const brightnessInput = document.getElementById("brightness");
+
+loop();
+</script>
+
+</body>
+</html>

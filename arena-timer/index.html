@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arena Timer Control (Offline)</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+.container {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  max-width: 1400px;
+  margin: auto;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+@media (max-width:1200px){ .grid{grid-template-columns:1fr;} }
+
+.section {
+  background:#f5f5f5;
+  padding:20px;
+  border-radius:8px;
+  margin-bottom:20px;
+}
+.section h2 { color:#667eea; margin-top:0; }
+
+button {
+  padding:12px;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.btn-start{background:#4CAF50;color:white;}
+.btn-pause{background:#FF9800;color:white;}
+.btn-reset{background:#f44336;color:white;}
+button:hover{opacity:0.9}
+
+.controls {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+input, select {
+  width:100%;
+  padding:10px;
+  border-radius:6px;
+  border:2px solid #ddd;
+}
+
+.console {
+  background:#1e1e1e;
+  color:#d4d4d4;
+  font-family:monospace;
+  font-size:12px;
+  padding:10px;
+  height:200px;
+  overflow-y:auto;
+}
+.console-entry { margin-bottom:6px; }
+.console-time { color:#888; margin-right:6px; }
+.console-success{color:#4CAF50;}
+.console-error{color:#f44336;}
+.console-info{color:#2196F3;}
+
+.apply-button {
+  width:100%;
+  margin-top:20px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>⏱️ Arena Timer Control (Offline)</h1>
+
+<div class="grid">
+
+<!-- COLUMN 1 -->
+<div>
+  <div class="section">
+    <h2>🎮 Timer Controls</h2>
+    <div class="controls">
+      <button id="startBtn" class="btn-start" onclick="sendCommand('start')">▶️ Start</button>
+      <button class="btn-pause" onclick="sendCommand('pause')">⏸️ Pause</button>
+      <button class="btn-reset" onclick="sendCommand('reset')">🔄 Reset</button>
+      <button class="btn-pause" style="grid-column:1/-1" onclick="sendCommand('flip')">🔄 Flip Display</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⏲️ Duration</h2>
+    <div style="display:flex;gap:8px">
+      <input type="number" id="durationMin" value="3" min="0">
+      <span>min</span>
+      <input type="number" id="durationSec" value="0" min="0" max="59">
+      <span>sec</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📝 Console</h2>
+    <div id="console" class="console"></div>
+  </div>
+</div>
+
+<!-- COLUMN 2 -->
+<div>
+  <div class="section">
+    <h2>🎨 Color Thresholds</h2>
+    <div id="thresholds"></div>
+    <button class="btn-start" onclick="addThreshold()">+ Add Threshold</button>
+    <label style="margin-top:10px">Default Color</label>
+    <input type="color" id="defaultColor" value="#00FF00">
+  </div>
+
+  <div class="section">
+    <h2>🔤 Font</h2>
+    <select id="fontSelect">
+      <option value="4">Sans Bold 12pt</option>
+      <option value="13">Org_01</option>
+      <option value="15">TomThumb</option>
+    </select>
+  </div>
+</div>
+
+<!-- COLUMN 3 -->
+<div>
+  <div class="section">
+    <h2>📊 Status</h2>
+    <div><strong>IP:</strong> <span id="ip">Loading…</span></div>
+    <div><strong>WebSocket:</strong> <span id="ws">Disconnected</span></div>
+  </div>
+
+  <div class="section">
+    <h2>🔗 WebSocket</h2>
+    <input id="wsHost" value="192.168.0.10">
+    <input id="wsPort" type="number" value="8765">
+    <input id="wsPath" value="/socket.io/">
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn-start" onclick="connectWS()">Connect</button>
+      <button class="btn-reset" onclick="disconnectWS()">Disconnect</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<button class="btn-start apply-button" onclick="applySettings()">✓ Apply Settings</button>
+</div>
+
+<!-- ======================================================
+     MOCK API + UI LOGIC (OFFLINE)
+====================================================== -->
+<script>
+/* -------- MOCK STATE -------- */
+const state = {
+  timer:{running:false,paused:false},
+  thresholds:[{seconds:60,color:"#FFFF00"}],
+  defaultColor:"#00FF00",
+  websocket:{connected:false,url:""},
+  ip:"192.168.0.42"
+};
+
+/* -------- FETCH MOCK -------- */
+const realFetch = window.fetch;
+window.fetch = (url,opt={})=>{
+  const method=(opt.method||"GET").toUpperCase();
+  const body=new URLSearchParams(opt.body||"");
+
+  if(url==="/api/status")
+    return ok({isPaused:state.timer.paused,isRunning:state.timer.running});
+
+  if(url==="/api/network/status")
+    return ok({ip:state.ip});
+
+  if(url==="/api/websocket/status")
+    return ok({connected:state.websocket.connected,url:state.websocket.url});
+
+  if(url==="/api/websocket/connect"){
+    state.websocket.connected=true;
+    state.websocket.url=`ws://${body.get("host")}:${body.get("port")}${body.get("path")}`;
+    return ok({status:"success",message:"Connected"});
+  }
+
+  if(url==="/api/websocket/disconnect"){
+    state.websocket.connected=false;
+    state.websocket.url="";
+    return ok({status:"success",message:"Disconnected"});
+  }
+
+  if(url==="/api/thresholds"){
+    if(method==="GET") return ok({thresholds:state.thresholds,defaultColor:state.defaultColor});
+    if(method==="POST"){
+      state.thresholds=(body.get("thresholds")||"").split("|").filter(Boolean).map(e=>{
+        const[x,y]=e.split(":");return{seconds:+x,color:y};
+      });
+      state.defaultColor=body.get("default")||state.defaultColor;
+      return ok("Thresholds updated");
+    }
+  }
+
+  if(url==="/api"){
+    const a=body.get("action");
+    if(a==="start"){state.timer.running=true;state.timer.paused=false;}
+    if(a==="pause"){state.timer.paused=true;}
+    if(a==="reset"){state.timer.running=false;state.timer.paused=false;}
+    return ok("OK");
+  }
+
+  return realFetch(url,opt);
+};
+
+function ok(d){
+  return Promise.resolve({
+    ok:true,
+    json:()=>Promise.resolve(d),
+    text:()=>Promise.resolve(typeof d==="string"?d:JSON.stringify(d))
+  });
+}
+
+/* -------- UI LOGIC -------- */
+const consoleEl=document.getElementById("console");
+function log(msg,type="info"){
+  const t=new Date().toLocaleTimeString();
+  const d=document.createElement("div");
+  d.className="console-entry console-"+type;
+  d.innerHTML=`<span class="console-time">${t}</span>${msg}`;
+  consoleEl.appendChild(d);
+  consoleEl.scrollTop=consoleEl.scrollHeight;
+}
+
+function sendCommand(a){
+  fetch("/api",{method:"POST",body:"action="+a});
+  log("Command: "+a,"success");
+}
+
+function applySettings(){
+  log("Settings applied","success");
+}
+
+function addThreshold(){
+  state.thresholds.push({seconds:30,color:"#FF0000"});
+  log("Threshold added");
+}
+
+function connectWS(){
+  fetch("/api/websocket/connect",{method:"POST",body:new URLSearchParams({
+    host:wsHost.value,port:wsPort.value,path:wsPath.value
+  })});
+  log("WebSocket connected","success");
+}
+
+function disconnectWS(){
+  fetch("/api/websocket/disconnect",{method:"POST"});
+  log("WebSocket disconnected","warning");
+}
+
+/* -------- STATUS UPDATES -------- */
+setInterval(()=>{
+  fetch("/api/network/status").then(r=>r.json()).then(d=>ip.textContent=d.ip);
+  fetch("/api/websocket/status").then(r=>r.json()).then(d=>{
+    ws.textContent=d.connected?"Connected":"Disconnected";
+  });
+},1000);
+
+log("Offline Mock API active","info");
+</script>
+
+</body>
+</html>
