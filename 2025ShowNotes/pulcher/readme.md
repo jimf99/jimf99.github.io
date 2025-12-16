@@ -8,6 +8,8 @@
 
 ** Other/Misc Bonus Stuff
   * https://randomnerdtutorials.com/esp32-webserial-library/
+  * https://learn.adafruit.com/adabox022/unboxing-adabox-022
+  
 
 
 
