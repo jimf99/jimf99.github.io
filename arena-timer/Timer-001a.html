@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>64x32 LED Matrix Timer (p5.js)</title>
+
+<style>
+  body {
+    background:#111;
+    color:#ddd;
+    font-family:Arial, sans-serif;
+    display:flex;
+    gap:20px;
+    padding:20px;
+  }
+
+  #panel {
+    background:#1e1e1e;
+    padding:32px;
+    border-radius:10px;
+    width:200px;
+    height:400px;
+  }
+
+  label { display:block; margin-top:10px; font-size:14px; }
+
+  input, select, button {
+    width:100%;
+    margin-top:5px;
+  }
+
+  .row {
+    display:flex;
+    gap:10px;
+  }
+
+  canvas {
+    width:800px;
+    height:800px;
+    image-rendering: pixelated;
+    background:#000;
+    border-radius:6px;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="sketch-holder"></div>
+
+<div id="panel">
+  <h3>Timer Control</h3>
+
+  <label>Duration</label>
+  <div class="row">
+    <input type="number" id="minutes" value="3" min="0">
+    <input type="number" id="seconds" value="0" min="0" max="59">
+  </div>
+
+  <button onclick="startTimer()">▶ Start</button>
+  <button onclick="pauseTimer()">⏸ Pause</button>
+  <button onclick="resetTimer()">🔄 Reset</button>
+  <button onclick="flipDisplay()">🔁 Flip</button>
+
+  <label>Font</label>
+  <select id="font">
+    <option value="bold">FreeSansBold</option>
+    <option value="sans">FreeSans</option>
+    <option value="mono">Monospace</option>
+    <option value="retro">Org_01 (retro)</option>
+    <option value="tiny">Picopixel</option>
+  </select>
+
+  <label>Digit Size</label>
+  <input type="range" id="digitSize" min="12" max="96" value="32">
+
+  <label>Letter Spacing</label>
+  <input type="range" id="spacing" min="-2" max="6" value="3">
+
+  <label>Brightness</label>
+  <input type="range" id="brightness" min="50" max="255" value="220">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+<script>
+/* =====================
+   CONFIG
+===================== */
+const MATRIX_W = 640;
+const MATRIX_H = 320;
+const SCALE    = 10;
+
+/* =====================
+   TIMER STATE
+===================== */
+let totalSeconds = 180;
+let remaining    = totalSeconds;
+let running      = false;
+let flipped      = false;
+
+const thresholds = [
+  { seconds: 60,  color: [255, 0, 0] },
+  { seconds: 120, color: [255, 255, 0] }
+];
+const defaultColor = [0, 255, 0];
+
+/* =====================
+   HELPERS
+===================== */
+function getInputSeconds() {
+  const mins = int(document.getElementById("minutes").value) || 0;
+  const secs = int(document.getElementById("seconds").value) || 0;
+  return mins * 60 + constrain(secs, 0, 59);
+}
+
+/* =====================
+   UI ACTIONS
+===================== */
+function startTimer() {
+  totalSeconds = getInputSeconds();
+  if (remaining <= 0 || remaining !== totalSeconds) {
+    remaining = totalSeconds;
+  }
+  running = true;
+}
+
+function pauseTimer() {
+  running = false;
+}
+
+function resetTimer() {
+  remaining = getInputSeconds();
+  running = false;
+}
+
+function flipDisplay() {
+  flipped = !flipped;
+}
+
+/* =====================
+   TIMER LOGIC
+===================== */
+setInterval(() => {
+  if (running && remaining > 0) remaining--;
+}, 1000);
+
+function getTimerColor() {
+  for (let t of thresholds) {
+    if (remaining <= t.seconds) return t.color;
+  }
+  return defaultColor;
+}
+
+/* =====================
+   P5 SKETCH
+===================== */
+function setup() {
+  const c = createCanvas(MATRIX_W, MATRIX_H);
+  c.parent("sketch-holder");
+
+  pixelDensity(1);
+  noSmooth();
+  textAlign(LEFT, CENTER);
+}
+
+function draw() {
+  background(0);
+
+  push();
+
+  if (flipped) {
+    translate(MATRIX_W, MATRIX_H);
+    rotate(PI);
+  }
+
+  const fontSel   = document.getElementById("font").value;
+  const spacing  = int(document.getElementById("spacing").value);
+  const bright   = document.getElementById("brightness").value / 255;
+  const digitSize = int(document.getElementById("digitSize").value);
+
+  textStyle(NORMAL);
+
+  switch (fontSel) {
+    case "bold":
+      textFont("Arial");
+      textStyle(BOLD);
+      break;
+    case "sans":
+      textFont("Arial");
+      break;
+    case "mono":
+      textFont("monospace");
+      break;
+    case "retro":
+      textFont("Courier");
+      textStyle(BOLD);
+      break;
+    case "tiny":
+      textFont("monospace");
+      break;
+  }
+
+  textSize(digitSize);
+
+  const [r, g, b] = getTimerColor();
+  fill(r * bright, g * bright, b * bright);
+  noStroke();
+
+  const mins = floor(remaining / 60);
+  const secs = remaining % 60;
+  const display = nf(mins, 2) + ":" + nf(secs, 2);
+
+  const charWidth = digitSize * 0.6 + spacing;
+  let x = (MATRIX_W - display.length * charWidth) / 2;
+  const y = MATRIX_H / 2;
+
+  for (let ch of display) {
+    text(ch, x, y);
+    x += charWidth;
+  }
+
+  pop();
+
+  drawingContext.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+}
+</script>
+
+</body>
+</html>
