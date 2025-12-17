@@ -9,6 +9,10 @@
 ** Other/Misc Bonus Stuff
   * https://randomnerdtutorials.com/esp32-webserial-library/
   * https://learn.adafruit.com/adabox022/unboxing-adabox-022
+
+** ESP32 Stuff
+  *   https://www.youtube.com/watch?v=arv94dC5RjY <= BoomyTech ESP32 WLED 48x48 Grid
+
   
 
 
