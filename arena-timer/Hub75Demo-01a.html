@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HUB75 1/32 Scan Simulator – Right-to-Left Scroll</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+<style>
+  body {
+    margin: 0;
+    background: #111;
+    color: #ddd;
+    font-family: monospace;
+  }
+  canvas {
+    display: block;
+    margin: auto;
+  }
+</style>
+</head>
+<body>
+
+<script>
+/* ============================================================
+   PANEL CONFIGURATION
+   ============================================================ */
+
+const PANEL_WIDTH  = 64;
+const PANEL_HEIGHT = 64;
+const SCAN_ROWS    = 32;
+
+const LED_SIZE = 8;
+const SIGNAL_Y = PANEL_HEIGHT * LED_SIZE + 30;
+
+/* ============================================================
+   FRAMEBUFFER & SCAN STATE
+   ============================================================ */
+
+let fb = [];
+let scanRow = 0;
+let shiftCol = 0;
+
+/* ============================================================
+   HUB75 SIGNALS
+   ============================================================ */
+
+let R1=0, G1=0, B1=0;
+let R2=0, G2=0, B2=0;
+let A=0, B=0, C=0, D=0, E=0;
+let CLK=0, LAT=0, OE=1;
+
+/* ============================================================
+   SCROLLING TEXT STATE
+   ============================================================ */
+
+let scrollX;
+let scrollSpeed = 1;
+let scrollMessage = "  HUB75 1/32 SCAN LED MATRIX DEMO  ";
+
+let textBuffer;
+let textColor;
+
+/* ============================================================
+   SETUP
+   ============================================================ */
+
+function setup() {
+  createCanvas(PANEL_WIDTH * LED_SIZE, SIGNAL_Y + 170);
+  frameRate(60);
+
+  // Initialize framebuffer
+  for (let y = 0; y < PANEL_HEIGHT; y++) {
+    fb[y] = [];
+    for (let x = 0; x < PANEL_WIDTH; x++) {
+      fb[y][x] = color(0);
+    }
+  }
+
+  // Offscreen buffer (simulates MCU framebuffer for text)
+  textBuffer = createGraphics(512, 24);
+  textBuffer.pixelDensity(1);
+  textBuffer.textFont("monospace");
+  textBuffer.textSize(12);
+  textBuffer.textAlign(LEFT, TOP);
+
+  textColor = color(255, 80, 20);
+
+  // Start text fully offscreen RIGHT
+  scrollX = PANEL_WIDTH;
+}
+
+/* ============================================================
+   MAIN LOOP
+   ============================================================ */
+
+function draw() {
+  background(15);
+
+  renderTextLayer();
+  hub75Step();
+
+  drawMatrix();
+  drawSignals();
+}
+
+/* ============================================================
+   TEXT RENDERING (RIGHT → LEFT)
+   ============================================================ */
+
+function renderTextLayer() {
+  textBuffer.background(0);
+  textBuffer.fill(textColor);
+  textBuffer.noStroke();
+
+  // Draw scrolling text at scrollX
+  textBuffer.text(scrollMessage, scrollX, 0);
+
+  // Line 2: live date & time
+  let now = new Date();
+  let timeStr =
+    nf(now.getHours(), 2) + ":" +
+    nf(now.getMinutes(), 2) + ":" +
+    nf(now.getSeconds(), 2) + "  " +
+    now.getFullYear() + "-" +
+    nf(now.getMonth() + 1, 2) + "-" +
+    nf(now.getDate(), 2);
+
+  textBuffer.text(timeStr, 0, 12);
+
+  // Copy visible window into framebuffer
+  for (let y = 0; y < 24; y++) {
+    for (let x = 0; x < PANEL_WIDTH; x++) {
+      let c = textBuffer.get(x, y);
+      fb[y][x] = alpha(c) > 0 ? c : color(0);
+    }
+  }
+
+  // Move LEFT
+  scrollX -= scrollSpeed;
+
+  // Reset when text fully exits LEFT
+  let textW = textBuffer.textWidth(scrollMessage);
+  if (scrollX < -textW) {
+    scrollX = PANEL_WIDTH;
+  }
+}
+
+/* ============================================================
+   HUB75 SCAN STEP (1/32 SCAN, A–E)
+   ============================================================ */
+
+function hub75Step() {
+  OE = 1;
+
+  A = (scanRow >> 0) & 1;
+  B = (scanRow >> 1) & 1;
+  C = (scanRow >> 2) & 1;
+  D = (scanRow >> 3) & 1;
+  E = (scanRow >> 4) & 1;
+
+  let rowTop = scanRow;
+  let rowBottom = scanRow + SCAN_ROWS;
+
+  let pxTop = fb[rowTop][shiftCol];
+  let pxBot = fb[rowBottom][shiftCol];
+
+  R1 = red(pxTop) > 128 ? 1 : 0;
+  G1 = green(pxTop) > 128 ? 1 : 0;
+  B1 = blue(pxTop) > 128 ? 1 : 0;
+
+  R2 = red(pxBot) > 128 ? 1 : 0;
+  G2 = green(pxBot) > 128 ? 1 : 0;
+  B2 = blue(pxBot) > 128 ? 1 : 0;
+
+  CLK = 1;
+  CLK = 0;
+
+  shiftCol++;
+
+  if (shiftCol >= PANEL_WIDTH) {
+    LAT = 1; LAT = 0;
+    OE = 0;
+
+    shiftCol = 0;
+    scanRow = (scanRow + 1) % SCAN_ROWS;
+  }
+}
+
+/* ============================================================
+   VISUALIZATION
+   ============================================================ */
+
+function drawMatrix() {
+  noStroke();
+  for (let y = 0; y < PANEL_HEIGHT; y++) {
+    for (let x = 0; x < PANEL_WIDTH; x++) {
+      fill(fb[y][x]);
+      rect(x * LED_SIZE, y * LED_SIZE, LED_SIZE - 1, LED_SIZE - 1);
+    }
+  }
+
+  // Highlight active scan rows
+  // stroke(255, 200, 0);
+  // noFill();
+  // rect(0, scanRow * LED_SIZE, width, LED_SIZE);
+  // rect(0, (scanRow + SCAN_ROWS) * LED_SIZE, width, LED_SIZE);
+}
+
+function drawSignals() {
+  fill(220);
+  textSize(14);
+  let y = SIGNAL_Y;
+
+  text("HUB75 SIGNALS (1/32 Scan)", 10, y); y += 20;
+  text(`R1:${R1} G1:${G1} B1:${B1}`, 10, y); y += 18;
+  text(`R2:${R2} G2:${G2} B2:${B2}`, 10, y); y += 18;
+  text(`A:${A} B:${B} C:${C} D:${D} E:${E}`, 10, y); y += 18;
+  text(`CLK:${CLK} LAT:${LAT} OE:${OE}`, 10, y); y += 18;
+  text(`ScanRow:${scanRow} Col:${shiftCol}`, 10, y);
+}
+</script>
+
+</body>
+</html>
