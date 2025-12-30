@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Fight Timer 2025</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            text-align: center; 
+            background: #0f0f0f; 
+            color: white; 
+            padding-top: 40px; 
+            overflow: hidden; 
+        }
+        
+        /* Consistent Header Styling for Title and Players */
+        .arena-header {
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin-bottom: 30px; 
+            letter-spacing: 1px;
+            color: white; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            text-transform: uppercase; 
+            display: inline-block; 
+            padding: 5px 15px;
+            border-radius: 8px;
+        }
+        .arena-header:hover { 
+            background: rgba(220, 53, 69, 0.2); 
+            color: #ff4d5e; 
+        }
+
+        .matchup { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            letter-spacing: 1px; 
+        }
+        
+        .player-name { 
+            cursor: pointer; 
+            padding: 5px 15px; 
+            border-radius: 8px; 
+            transition: 0.3s; 
+            display: inline-block; 
+            text-transform: uppercase; 
+        }
+        .player-name:hover { 
+            background: rgba(220, 53, 69, 0.2); 
+            color: #ff4d5e; 
+        }
+        
+        .vs { 
+            font-size: 1.2rem; 
+            color: #dc3545; 
+            display: block; 
+            margin: 10px 0; 
+            font-style: italic; 
+            font-weight: 400;
+        }
+
+        /* Timer Display */
+        .timer-display { 
+            font-size: 8rem; 
+            font-weight: 900; 
+            margin: 20px 0; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            font-variant-numeric: tabular-nums; 
+        }
+        .timer-display:hover { 
+            color: #2ecc71; 
+            transform: scale(1.05); 
+        }
+
+        /* Control Buttons */
+        .controls button { 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            padding: 12px 30px; 
+            margin: 8px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 50px; 
+            transition: 0.3s; 
+            text-transform: uppercase; 
+        }
+        .start { background: #2ecc71; color: white; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
+        .pause { background: #f1c40f; color: black; }
+        .reset { background: #34495e; color: white; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* Draggable Glass Modal */
+        #customModal {
+            display: none; 
+            position: absolute; 
+            z-index: 1000;
+            width: 320px; 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); 
+            text-align: left;
+        }
+        .modal-header { 
+            padding: 12px; 
+            background: rgba(255, 255, 255, 0.05); 
+            cursor: move; 
+            border-radius: 15px 15px 0 0; 
+            font-weight: bold; 
+            color: #aaa; 
+            text-transform: uppercase; 
+            font-size: 0.8rem;
+        }
+        .modal-body { padding: 20px; }
+        .modal-body label { display: block; margin-bottom: 5px; color: #888; font-size: 0.75rem; }
+        .modal-body input { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border-radius: 5px; 
+            border: 1px solid #444; 
+            background: #222; 
+            color: white; 
+            box-sizing: border-box; 
+        }
+        .modal-footer { 
+            padding: 15px; 
+            text-align: right; 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .btn-confirm { 
+            background: #2ecc71; 
+            color: white; 
+            border: none; 
+            padding: 8px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Editable Arena Title -->
+    <div id="arenaTitle" class="arena-header" onclick="openArenaModal()">ARENA 1: TITLE 1</div>
+
+    <div id="status" class="matchup">
+        <span id="p1" class="player-name" onclick="openPlayerModal('p1')">PLAYER 1</span>
+        <span class="vs">VS</span>
+        <span id="p2" class="player-name" onclick="openPlayerModal('p2')">PLAYER 2</span>
+    </div>
+
+    <div id="timer" class="timer-display" onclick="openTimeModal()">03:00</div>
+    
+    <div class="controls">
+        <button class="start" onclick="startTimer()">Start</button>
+        <button class="pause" onclick="pauseTimer()">Pause</button>
+        <button class="reset" onclick="resetTimer()">Reset</button>
+    </div>
+
+    <!-- Audio Assets -->
+    <audio id="bell" src="cdn.pixabay.com"></audio>
+    <audio id="buzzer" src="cdn.pixabay.com"></audio>
+
+    <!-- Draggable Modal System -->
+    <div id="customModal">
+        <div id="modalHeader" class="modal-header">Settings</div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+            <button class="btn-confirm" onclick="closeModal(true)">Apply Changes</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 180; 
+        let timerId = null;
+        let activeTarget = null;
+
+        // Modal Openers
+        function openArenaModal() {
+            activeTarget = 'arenaTitle';
+            setupModal("Edit Arena Title", `<label>Arena/Event Name</label><input type="text" id="modalInput1" value="${document.getElementById('arenaTitle').textContent}" autofocus onkeyup="if(event.key==='Enter') closeModal(true)">`);
+        }
+
+        function openPlayerModal(id) {
+            activeTarget = id;
+            setupModal("Rename Fighter", `<label>Fighter Name</label><input type="text" id="modalInput1" value="${document.getElementById(id).textContent}" autofocus onkeyup="if(event.key==='Enter') closeModal(true)">`);
+        }
+
+        function openTimeModal() {
+            pauseTimer(); 
+            activeTarget = 'timer';
+            setupModal("Adjust Round Time", `
+                <label>Minutes</label><input type="number" id="modalInput1" value="${Math.floor(timeLeft / 60)}">
+                <label>Seconds</label><input type="number" id="modalInput2" value="${timeLeft % 60}">
+            `);
+        }
+
+        // Modal Core Logic
+        function setupModal(header, bodyHtml) {
+            document.getElementById('modalHeader').textContent = header;
+            document.getElementById('modalBody').innerHTML = bodyHtml;
+            const modal = document.getElementById('customModal');
+            modal.style.display = 'block'; 
+            modal.style.left = '50%'; 
+            modal.style.top = '50%'; 
+            modal.style.transform = 'translate(-50%, -50%)';
+        }
+
+        function closeModal(save) {
+            if (save) {
+                if (activeTarget === 'timer') {
+                    let m = parseInt(document.getElementById('modalInput1').value) || 0;
+                    let s = parseInt(document.getElementById('modalInput2').value) || 0;
+                    timeLeft = (m * 60) + s;
+                    updateDisplay();
+                } else {
+                    let val = document.getElementById('modalInput1').value;
+                    if (val.trim()) document.getElementById(activeTarget).textContent = val.toUpperCase();
+                }
+            }
+            document.getElementById('customModal').style.display = 'none';
+        }
+
+        // Timer Functionality
+        function updateDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (timerId) return;
+            document.getElementById('bell').play();
+            timerId = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--; 
+                    updateDisplay();
+                    if (timeLeft === 10) document.getElementById('buzzer').play(); // 10s Warning
+                } else {
+                    stopTimer(); 
+                    document.getElementById('bell').play();
+                    alert("Round Finished!");
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() { 
+            clearInterval(timerId); 
+            timerId = null; 
+        }
+
+        function stopTimer() { 
+            pauseTimer(); 
+        }
+
+        function resetTimer() { 
+            stopTimer(); 
+            timeLeft = 180; 
+            updateDisplay(); 
+        }
+
+        // Drag Logic for Modal
+        dragElement(document.getElementById("customModal"));
+        function dragElement(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            document.getElementById("modalHeader").onmousedown = (e) => {
+                e.preventDefault();
+                pos3 = e.clientX; 
+                pos4 = e.clientY;
+                document.onmouseup = () => { 
+                    document.onmouseup = null; 
+                    document.onmousemove = null; 
+                };
+                document.onmousemove = (e) => {
+                    e.preventDefault();
+                    pos1 = pos3 - e.clientX; 
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX; 
+                    pos4 = e.clientY;
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                    elmnt.style.transform = 'none';
+                };
+            };
+        }
+    </script>
+</body>
+</html>
