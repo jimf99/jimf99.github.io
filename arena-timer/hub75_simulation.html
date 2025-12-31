@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUB75 Display Simulator</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      font-family: 'Courier New', monospace;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      width: 100%;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #00ff88;
+      text-shadow: 0 0 10px #00ff88;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .display-container {
+      background: #000;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+      margin-bottom: 30px;
+    }
+    
+    canvas {
+      border: 3px solid #333;
+      border-radius: 5px;
+      display: block;
+      margin: 0 auto;
+      image-rendering: pixelated;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+    
+    .controls {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+    }
+    
+    .control-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      color: #00ff88;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 255, 136, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .status-led {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ff0000;
+      box-shadow: 0 0 10px #ff0000;
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+    
+    .info {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+      border-left: 4px solid #00ff88;
+    }
+    
+    .info h3 {
+      color: #00ff88;
+      margin-top: 0;
+      font-size: 14px;
+    }
+    
+    .pin-status {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .pin {
+      background: #1a1a1a;
+      padding: 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      border: 1px solid #333;
+    }
+    
+    .pin-name {
+      color: #00ff88;
+      font-weight: bold;
+    }
+    
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔌 HUB75 Display Simulator</h1>
+    <div class="subtitle">RP2350B + 74HCT245 Level Shifter + 64x32 RGB Matrix</div>
+    
+    <div class="display-container">
+      <canvas id="display" width="640" height="320"></canvas>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label>Demo Programs:</label>
+        <div class="button-group">
+          <button onclick="runDemo('colors')">Solid Colors</button>
+          <button onclick="runDemo('rainbow')">Rainbow Gradient</button>
+          <button onclick="runDemo('checkerboard')">Checkerboard</button>
+          <button onclick="runDemo('plasma')">Plasma Effect</button>
+          <button onclick="runDemo('ball')">Bouncing Ball</button>
+          <button onclick="runDemo('text')">Scrolling Text</button>
+          <button onclick="runDemo('fire')">Fire Effect</button>
+          <button onclick="runDemo('matrix')">Matrix Rain</button>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label>Control:</label>
+        <div class="button-group">
+          <button onclick="stopDemo()">Stop</button>
+          <button onclick="clearDisplay()">Clear Display</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="status">
+      <div class="status-led"></div>
+      <div>
+        <strong>Status LED (GP15)</strong><br>
+        <span style="color: #888; font-size: 12px;">System running</span>
+      </div>
+    </div>
+    
+    <div class="info">
+      <h3>ℹ️ Simulation Info</h3>
+      <p>This simulates the 64x32 RGB HUB75 LED matrix display driven by the RP2350B microcontroller. The 74HCT245 level shifter converts 3.3V signals from the RP2350B to 5V logic for the display.</p>
+      <div class="pin-status">
+        <div class="pin"><span class="pin-name">GP0-GP5:</span> RGB Data</div>
+        <div class="pin"><span class="pin-name">GP6-GP8:</span> Row Address</div>
+        <div class="pin"><span class="pin-name">GP9:</span> Clock</div>
+        <div class="pin"><span class="pin-name">GP10:</span> Latch</div>
+        <div class="pin"><span class="pin-name">GP11:</span> Output Enable</div>
+        <div class="pin"><span class="pin-name">5V 4A:</span> Display Power</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('display');
+    const ctx = canvas.getContext('2d');
+    const WIDTH = 64;
+    const HEIGHT = 32;
+    const PIXEL_SIZE = 10;
+    
+    let frameBuffer = Array(HEIGHT).fill(null).map(() => Array(WIDTH).fill({r: 0, g: 0, b: 0}));
+    let animationId = null;
+    let currentDemo = null;
+    
+    // Initialize display
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    function setPixel(x, y, r, g, b) {
+      if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
+        frameBuffer[y][x] = {r, g, b};
+      }
+    }
+    
+    function updateDisplay() {
+      for (let y = 0; y < HEIGHT; y++) {
+        for (let x = 0; x < WIDTH; x++) {
+          const pixel = frameBuffer[y][x];
+          ctx.fillStyle = `rgb(${pixel.r}, ${pixel.g}, ${pixel.b})`;
+          ctx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+          
+          // LED glow effect
+          if (pixel.r > 0 || pixel.g > 0 || pixel.b > 0) {
+            ctx.fillStyle = `rgba(${pixel.r}, ${pixel.g}, ${pixel.b}, 0.3)`;
+            ctx.fillRect(x * PIXEL_SIZE - 1, y * PIXEL_SIZE - 1, PIXEL_SIZE + 2, PIXEL_SIZE + 2);
+          }
+        }
+      }
+    }
+    
+    function clearDisplayBuffer() {
+      for (let y = 0; y < HEIGHT; y++) {
+        for (let x = 0; x < WIDTH; x++) {
+          frameBuffer[y][x] = {r: 0, g: 0, b: 0};
+        }
+      }
+      updateDisplay();
+    }
+    
+    function clearDisplay() {
+      stopDemo();
+      clearDisplayBuffer();
+    }
+    
+    function stopDemo() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+      currentDemo = null;
+    }
+    
+    function hsvToRgb(h, s, v) {
+      const c = v * s;
+      const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+      const m = v - c;
+      
+      let r, g, b;
+      if (h < 60) { r = c; g = x; b = 0; }
+      else if (h < 120) { r = x; g = c; b = 0; }
+      else if (h < 180) { r = 0; g = c; b = x; }
+      else if (h < 240) { r = 0; g = x; b = c; }
+      else if (h < 300) { r = x; g = 0; b = c; }
+      else { r = c; g = 0; b = x; }
+      
+      return {
+        r: Math.round((r + m) * 255),
+        g: Math.round((g + m) * 255),
+        b: Math.round((b + m) * 255)
+      };
+    }
+    
+    // Demo: Solid Colors
+    function demoColors() {
+      const colors = [
+        {r: 255, g: 0, b: 0},
+        {r: 0, g: 255, b: 0},
+        {r: 0, g: 0, b: 255},
+        {r: 255, g: 255, b: 0},
+        {r: 255, g: 0, b: 255},
+        {r: 0, g: 255, b: 255},
+        {r: 255, g: 255, b: 255}
+      ];
+      let index = 0;
+      let lastChange = Date.now();
+      
+      function animate() {
+        if (currentDemo !== 'colors') return;
+        
+        if (Date.now() - lastChange > 1000) {
+          const color = colors[index];
+          for (let y = 0; y < HEIGHT; y++) {
+            for (let x = 0; x < WIDTH; x++) {
+              setPixel(x, y, color.r, color.g, color.b);
+            }
+          }
+          updateDisplay();
+          index = (index + 1) % colors.length;
+          lastChange = Date.now();
+        }
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      animate();
+    }
+    
+    // Demo: Rainbow Gradient
+    function demoRainbow() {
+      let offset = 0;
+      
+      function animate() {
+        if (currentDemo !== 'rainbow') return;
+        
+        for (let y = 0; y < HEIGHT; y++) {
+          for (let x = 0; x < WIDTH; x++) {
+            const hue = ((x + offset) / WIDTH * 360) % 360;
+            const color = hsvToRgb(hue, 1, 1);
+            setPixel(x, y, color.r, color.g, color.b);
+          }
+        }
+        updateDisplay();
+        offset = (offset + 1) % WIDTH;
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      animate();
+    }
+    
+    // Demo: Checkerboard
+    function demoCheckerboard() {
+      const size = 4;
+      for (let y = 0; y < HEIGHT; y++) {
+        for (let x = 0; x < WIDTH; x++) {
+          const isWhite = (Math.floor(x / size) + Math.floor(y / size)) % 2 === 0;
+          const val = isWhite ? 255 : 0;
+          setPixel(x, y, val, val, val);
+        }
+      }
+      updateDisplay();
+    }
+    
+    // Demo: Plasma Effect
+    function demoPlasma() {
+      let time = 0;
+      
+      function animate() {
+        if (currentDemo !== 'plasma') return;
+        
+        for (let y = 0; y < HEIGHT; y++) {
+          for (let x = 0; x < WIDTH; x++) {
+            const v = Math.sin(x / 8 + time) + 
+                     Math.sin(y / 8 + time) + 
+                     Math.sin((x + y) / 16 + time) + 
+                     Math.sin(Math.sqrt(x * x + y * y) / 8 + time);
+            const hue = (v * 50 + time * 100) % 360;
+            const color = hsvToRgb(hue, 1, 1);
+            setPixel(x, y, color.r, color.g, color.b);
+          }
+        }
+        updateDisplay();
+        time += 0.1;
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      animate();
+    }
+    
+    // Demo: Bouncing Ball
+    function demoBall() {
+      let x = WIDTH / 2, y = HEIGHT / 2;
+      let dx = 2, dy = 1;
+      const radius = 3;
+      
+      function animate() {
+        if (currentDemo !== 'ball') return;
+        
+        clearDisplayBuffer();
+        
+        // Draw ball
+        for (let by = -radius; by <= radius; by++) {
+          for (let bx = -radius; bx <= radius; bx++) {
+            if (bx * bx + by * by <= radius * radius) {
+              setPixel(Math.round(x + bx), Math.round(y + by), 255, 255, 0);
+            }
+          }
+        }
+        
+        x += dx;
+        y += dy;
+        
+        if (x <= radius || x >= WIDTH - radius) dx = -dx;
+        if (y <= radius || y >= HEIGHT - radius) dy = -dy;
+        
+        updateDisplay();
+        
+        setTimeout(() => {
+          animationId = requestAnimationFrame(animate);
+        }, 50);
+      }
+      animate();
+    }
+    
+    // Demo: Scrolling Text
+    function demoText() {
+      const text = "HUB75";
+      let offset = WIDTH;
+      
+      // 5x7 font for simple letters
+      const font = {
+        'H': [[1,0,0,0,1],[1,0,0,0,1],[1,1,1,1,1],[1,0,0,0,1],[1,0,0,0,1]],
+        'U': [[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[1,0,0,0,1],[0,1,1,1,0]],
+        'B': [[1,1,1,1,0],[1,0,0,0,1],[1,1,1,1,0],[1,0,0,0,1],[1,1,1,1,0]],
+        '7': [[1,1,1,1,1],[0,0,0,1,0],[0,0,1,0,0],[0,1,0,0,0],[1,0,0,0,0]],
+        '5': [[1,1,1,1,1],[1,0,0,0,0],[1,1,1,1,0],[0,0,0,0,1],[1,1,1,1,0]]
+      };
+      
+      function animate() {
+        if (currentDemo !== 'text') return;
+        
+        clearDisplayBuffer();
+        
+        let xPos = offset;
+        for (let char of text) {
+          const glyph = font[char];
+          if (glyph) {
+            for (let y = 0; y < glyph.length; y++) {
+              for (let x = 0; x < glyph[y].length; x++) {
+                if (glyph[y][x]) {
+                  setPixel(xPos + x, 12 + y, 0, 255, 255);
+                }
+              }
+            }
+            xPos += 7;
+          }
+        }
+        
+        updateDisplay();
+        offset -= 1;
+        if (offset < -text.length * 7) offset = WIDTH;
+        
+        setTimeout(() => {
+          animationId = requestAnimationFrame(animate);
+        }, 80);
+      }
+      animate();
+    }
+    
+    // Demo: Fire Effect
+    function demoFire() {
+      let fire = Array(HEIGHT + 1).fill(null).map(() => Array(WIDTH).fill(0));
+      
+      function animate() {
+        if (currentDemo !== 'fire') return;
+        
+        // Add fire at bottom
+        for (let x = 0; x < WIDTH; x++) {
+          fire[HEIGHT][x] = Math.random() > 0.5 ? 255 : 0;
+        }
+        
+        // Propagate fire upward
+        for (let y = 0; y < HEIGHT; y++) {
+          for (let x = 0; x < WIDTH; x++) {
+            const sum = fire[y + 1][x] + 
+                       fire[y + 1][(x + 1) % WIDTH] + 
+                       fire[y + 1][(x - 1 + WIDTH) % WIDTH] + 
+                       fire[Math.min(y + 2, HEIGHT)][(x) % WIDTH];
+            fire[y][x] = Math.floor(sum / 4.1);
+            
+            const val = fire[y][x];
+            const r = Math.min(255, val);
+            const g = Math.min(200, Math.floor(val * 0.6));
+            const b = 0;
+            setPixel(x, y, r, g, b);
+          }
+        }
+        
+        updateDisplay();
+        
+        setTimeout(() => {
+          animationId = requestAnimationFrame(animate);
+        }, 50);
+      }
+      animate();
+    }
+    
+    // Demo: Matrix Rain
+    function demoMatrix() {
+      let drops = Array(WIDTH).fill(null).map(() => ({y: Math.random() * HEIGHT, speed: 0.5 + Math.random()}));
+      
+      function animate() {
+        if (currentDemo !== 'matrix') return;
+        
+        // Fade existing pixels
+        for (let y = 0; y < HEIGHT; y++) {
+          for (let x = 0; x < WIDTH; x++) {
+            const pixel = frameBuffer[y][x];
+            frameBuffer[y][x] = {
+              r: Math.floor(pixel.r * 0.9),
+              g: Math.floor(pixel.g * 0.9),
+              b: Math.floor(pixel.b * 0.9)
+            };
+          }
+        }
+        
+        // Draw drops
+        for (let i = 0; i < drops.length; i++) {
+          const drop = drops[i];
+          setPixel(i, Math.floor(drop.y), 0, 255, 0);
+          setPixel(i, Math.floor(drop.y) - 1, 0, 180, 0);
+          setPixel(i, Math.floor(drop.y) - 2, 0, 100, 0);
+          
+          drop.y += drop.speed;
+          if (drop.y > HEIGHT) {
+            drop.y = 0;
+            drop.speed = 0.5 + Math.random();
+          }
+        }
+        
+        updateDisplay();
+        
+        setTimeout(() => {
+          animationId = requestAnimationFrame(animate);
+        }, 50);
+      }
+      animate();
+    }
+    
+    function runDemo(demo) {
+      stopDemo();
+      currentDemo = demo;
+      
+      switch(demo) {
+        case 'colors': demoColors(); break;
+        case 'rainbow': demoRainbow(); break;
+        case 'checkerboard': demoCheckerboard(); break;
+        case 'plasma': demoPlasma(); break;
+        case 'ball': demoBall(); break;
+        case 'text': demoText(); break;
+        case 'fire': demoFire(); break;
+        case 'matrix': demoMatrix(); break;
+      }
+    }
+    
+    // Start with rainbow demo
+    runDemo('rainbow');
+  </script>
+</body>
+</html>
