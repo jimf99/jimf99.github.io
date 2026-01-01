@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>48x48 WS2812 WLED Simulator</title>
+  <!-- Requested p5.js v1.11.11 CDN URI -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+  <style>
+    body { margin: 0; background: #050505; color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+    #canvas-wrap { border: 4px solid #222; border-radius: 4px; box-shadow: 0 0 40px rgba(0,0,0,0.9); }
+    .status { margin-bottom: 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #cc66ff; font-weight: bold; }
+    .nav { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 600px; }
+    button { background: #1a1a1a; color: #888; border: 1px solid #333; padding: 10px 18px; cursor: pointer; border-radius: 4px; transition: 0.2s; font-size: 12px; }
+    button:hover { background: #333; color: #fff; }
+    button.active { background: #9933ff; color: #fff; border-color: #bb66ff; box-shadow: 0 0 15px rgba(153, 51, 255, 0.5); }
+  </style>
+</head>
+<body>
+
+  <div class="status" id="statusMsg">Initializing Matrix...</div>
+  <div id="canvas-wrap"></div>
+  <div class="nav" id="btnContainer"></div>
+
+<script>
+/**
+ * 48x48 WS2812 Matrix Simulation
+ * Powered by p5.js v1.11.11
+ */
+
+const ROWS = 48, COLS = 48, NUM_LEDS = ROWS * COLS;
+let leds = [], heat = new Array(NUM_LEDS).fill(0);
+let pxSize, lastChange = 0, isAuto = true, currentID = 0;
+
+const EFFECTS = [
+  { name: "Purple-Blue-Red", run: fxPurpleBlueRed },
+  { name: "Fire 2012", run: fxFire },
+  { name: "Plasma", run: fxPlasma },
+  { name: "Sparkle", run: fxSparkle }
+];
+
+function setup() {
+  const dim = min(windowHeight * 0.7, windowWidth * 0.9);
+  createCanvas(dim, dim).parent('canvas-wrap');
+  pxSize = width / COLS;
+  
+  // FastLED/WLED compatible color mode
+  colorMode(HSB, 255);
+  
+  // Initialize LED buffer
+  for (let i = 0; i < NUM_LEDS; i++) leds[i] = color(0);
+
+  // Build Menu Buttons
+  const nav = document.getElementById('btnContainer');
+  EFFECTS.forEach((fx, i) => {
+    const btn = document.createElement('button');
+    btn.innerText = fx.name;
+    btn.id = "fx-btn-" + i;
+    btn.onclick = () => { currentID = i; isAuto = false; updateUI(); };
+    nav.appendChild(btn);
+  });
+  
+  updateUI();
+}
+
+function draw() {
+  background(0);
+
+  // Auto-Cycle Engine (10 seconds per effect)
+  if (isAuto) {
+    let timer = floor(10 - (millis() - lastChange) / 1000);
+    document.getElementById('statusMsg').innerText = `Auto-Cycling: ${timer}s`;
+    if (millis() - lastChange > 10000) {
+      currentID = (currentID + 1) % EFFECTS.length;
+      lastChange = millis();
+      updateUI();
+    }
+  } else {
+    document.getElementById('statusMsg').innerText = "Manual Mode";
+  }
+
+  // Execute Effect logic
+  EFFECTS[currentID].run();
+  
+  // Render Grid (Simulating WS2812 Matrix)
+  noStroke();
+  for (let i = 0; i < NUM_LEDS; i++) {
+    fill(leds[i]);
+    rect((i % COLS) * pxSize, floor(i / COLS) * pxSize, pxSize, pxSize);
+  }
+}
+
+function updateUI() {
+  EFFECTS.forEach((_, i) => {
+    const btn = document.getElementById("fx-btn-"+i);
+    if(btn) btn.className = (i === currentID) ? "active" : "";
+  });
+  lastChange = millis();
+}
+
+/** --- EFFECT MODULES --- **/
+
+// Constrained Hue Cycle: Blue(160) -> Purple(200) -> Red(255/0)
+function fxPurpleBlueRed() {
+  let speed = frameCount * 1.2;
+  for (let i = 0; i < NUM_LEDS; i++) {
+    let hueVal = (speed + (i * 0.4)) % 130; 
+    let finalHue = (160 + hueVal) % 255;
+    leds[i] = color(finalHue, 210, 255);
+  }
+}
+
+function fxFire() {
+  for (let i = 0; i < NUM_LEDS; i++) heat[i] = max(0, heat[i] - random(15));
+  for (let y = 1; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) heat[(y-1)*COLS+x] = heat[y*COLS+x];
+  }
+  for (let x = 0; x < COLS; x++) {
+    if (random(255) < 40) heat[(ROWS-1)*COLS+x] = random(160, 255);
+  }
+  for (let i = 0; i < NUM_LEDS; i++) {
+    leds[i] = color(map(heat[i], 0, 255, 0, 45), 255, heat[i]);
+  }
+}
+
+function fxPlasma() {
+  let t = millis() / 1500;
+  for (let i = 0; i < NUM_LEDS; i++) {
+    let x = i % COLS, y = floor(i / COLS);
+    let v = sin(x/8.0 + t) + sin((y/8.0 + t)/1.5) + sin((x+y+t)/8.0);
+    leds[i] = color(map(v, -3, 3, 160, 255), 180, 255);
+  }
+}
+
+function fxSparkle() {
+  for (let i = 0; i < NUM_LEDS; i++) {
+    let b = brightness(leds[i]);
+    leds[i] = color(hue(leds[i]), saturation(leds[i]), max(0, b - 30));
+  }
+  for (let n = 0; n < 6; n++) {
+    leds[floor(random(NUM_LEDS))] = color(random(160, 255), 100, 255);
+  }
+}
+
+function windowResized() {
+  const dim = min(windowHeight * 0.7, windowWidth * 0.9);
+  resizeCanvas(dim, dim);
+  pxSize = width / COLS;
+}
+</script>
+</body>
+</html>
