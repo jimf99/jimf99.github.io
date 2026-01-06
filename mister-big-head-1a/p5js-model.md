@@ -1,5 +1,4 @@
-```` javascript
-let stlModel;
+```` javascriptlet stlModel;
 
 function preload() {
   // Load the STL file from the GitHub link.
@@ -11,13 +10,15 @@ function setup() {
 }
 
 function draw() {
-  background(200);
+  background(color(0,250,16));
   lights(); // Enable lighting
 
   // Rotate the model for better visibility
-  rotateX(frameCount * 0.005);
-  rotateY(frameCount * 0.005);
-  
+  // rotateX(frameCount * 0.005);
+  // rotateY(frameCount * 0.005);
+  rotateX(10);
+  rotateY(22);
+  rotateZ(0.5);
   // Render the loaded STL model
   scale(1.0); // Adjust the scale if necessary
   model(stlModel);
@@ -27,3 +28,4 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
+// xxx
