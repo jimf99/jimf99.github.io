@@ -1,3 +1,4 @@
+``` javascript
 
 function preload() {
   // Load the STL file from the GitHub link.
