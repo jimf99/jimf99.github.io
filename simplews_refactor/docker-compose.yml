@@ -1,0 +1,10 @@
+services:
+  simplews:
+    build: .
+    container_name: simplews
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./templates:/app/templates:ro
+      - ./static:/app/static:ro
+    restart: unless-stopped
