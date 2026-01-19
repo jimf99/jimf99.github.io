@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature OBS Simulator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        :root {
+            --obs-bg: #1e1e1e;
+            --obs-panel: #2d2d2d;
+            --obs-accent: #2ecc71; /* Nature Green */
+            --obs-border: #3d3d3d;
+            --text: #e0e0e0;
+        }
+
+        body {
+            background: #121212;
+            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #obs-main {
+            width: 1000px;
+            background: var(--obs-bg);
+            border: 1px solid var(--obs-border);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        }
+
+        /* VIEWPORT */
+        #viewport-container {
+            position: relative;
+            width: 880px;
+            height: 495px;
+            margin: 20px auto;
+            background: #000;
+            border: 4px solid #111;
+        }
+
+        .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        #p5-layer { z-index: 5; pointer-events: none; }
+
+        /* UI DOCK */
+        #dock {
+            display: grid;
+            grid-template-columns: 200px 220px 1fr 200px;
+            gap: 2px;
+            background: var(--obs-border);
+            border-top: 1px solid var(--obs-border);
+        }
+
+        .panel {
+            background: var(--obs-panel);
+            padding: 15px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #777;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .source-btn {
+            background: #3a3a3a;
+            color: #bbb;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: none;
+            text-align: left;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .source-btn:hover { background: #4a4a4a; }
+        .source-btn.active { background: var(--obs-accent); color: white; }
+
+        #stream-btn {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #stream-btn.on { background: #e74c3c; }
+
+        .vu-meter { height: 8px; background: #111; margin: 5px 0 15px 0; border-radius: 4px; overflow: hidden; }
+        .vu-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2ecc71, #f1c40f, #e74c3c); }
+    </style>
+</head>
+<body>
+
+<div id="obs-main">
+    <div id="viewport-container">
+        <iframe id="nature-frame" class="layer" 
+                src="https://www.youtube.com/embed/live_stream?channel=UC8uYis4pS_u7t-jYnO3U57g&autoplay=1&mute=1" 
+                allow="autoplay; encrypted-media; fullscreen"></iframe>
+        
+        <div id="p5-layer" class="layer"></div>
+    </div>
+
+    <div id="dock">
+        <div class="panel">
+            <div class="panel-label">Scenes</div>
+            <button class="source-btn active" onclick="setScene('CAM')">🎥 Camera View</button>
+            <button class="source-btn" onclick="setScene('BRB')">☕ Field Notes (BRB)</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-label">Nature Sources</div>
+            <button id="btn-reef" class="source-btn active" onclick="setSource('UC8uYis4pS_u7t-jYnO3U57g', 'btn-reef')">🪸 Coral Reef</button>
+            <button id="btn-safari" class="source-btn" onclick="setSource('UCV6HJBZD_hZAL8sfH8A61kw', 'btn-safari')">🦒 African Safari</button>
+            <button id="btn-birds" class="source-btn" onclick="setSource('UCO69I-Xtep07N8M-G51N71A', 'btn-birds')">🐦 Bird Feeder</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-label">Audio</div>
+            <div style="font-size: 9px;">AMBIENT WILDLIFE</div>
+            <div class="vu-meter"><div id="vu-nature" class="vu-fill"></div></div>
+            <div style="font-size: 9px;">STUDIO MIC</div>
+            <div class="vu-meter"><div id="vu-mic" class="vu-fill"></div></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-label">Controls</div>
+            <button id="stream-btn" onclick="toggleStream()">Start Broadcast</button>
+            <div style="font-size: 11px; margin-top: 15px; color: #666; font-family: monospace;">
+                DROPPED: <span id="drop-val">0</span><br>
+                CPU: <span id="cpu-val">1.2%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cam;
+    let currentScene = 'CAM';
+    let isStreaming = false;
+
+    function setup() {
+        let cnv = createCanvas(880, 495);
+        cnv.parent('p5-layer');
+
+        // Webcam initialization
+        cam = createCapture(VIDEO);
+        cam.size(320, 240);
+        cam.hide();
+    }
+
+    function draw() {
+        clear();
+
+        if (currentScene === 'CAM') {
+            renderCamOverlay();
+        } else {
+            renderBRBScreen();
+        }
+
+        updateUI();
+    }
+
+    function setSource(channelId, btnId) {
+        // Update Iframe for YouTube Live
+        const url = `https://www.youtube.com/embed/live_stream?channel=${channelId}&autoplay=1&mute=1`;
+        document.getElementById('nature-frame').src = url;
+
+        // Update Button UI
+        document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(btnId).classList.add('active');
+    }
+
+    function setScene(s) {
+        currentScene = s;
+        // Visual toggle for iframe
+        document.getElementById('nature-frame').style.display = (s === 'CAM') ? 'block' : 'none';
+    }
+
+    function renderCamOverlay() {
+        // Subtle Border for p5 canvas
+        noFill();
+        stroke(46, 204, 113, 100);
+        strokeWeight(10);
+        rect(0, 0, width, height);
+
+        // Webcam "Picture-in-Picture"
+        push();
+        stroke(255);
+        strokeWeight(2);
+        image(cam, 30, height - 160, 180, 135);
+        noFill();
+        rect(30, height - 160, 180, 135);
+        
+        // "REC" Indicator
+        if (isStreaming && floor(frameCount / 30) % 2 == 0) {
+            fill(255, 0, 0);
+            noStroke();
+            circle(width - 40, 40, 15);
+            fill(255);
+            textSize(12);
+            textAlign(RIGHT);
+            text("LIVE", width - 60, 45);
+        }
+        pop();
+    }
+
+    function renderBRBScreen() {
+        background(20, 30, 20);
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textSize(40);
+        text("OBSERVATION LOGS", width/2, height/2 - 20);
+        textSize(15);
+        fill(46, 204, 113);
+        text("CHECKING THE SENSORS... BE RIGHT BACK", width/2, height/2 + 30);
+    }
+
+    function toggleStream() {
+        isStreaming = !isStreaming;
+        const btn = document.getElementById('stream-btn');
+        btn.innerText = isStreaming ? "End Broadcast" : "Start Broadcast";
+        btn.classList.toggle('on', isStreaming);
+    }
+
+    function updateUI() {
+        // Audio Mixer Sim
+        let n = noise(frameCount * 0.1) * 60 + (isStreaming ? 10 : 0);
+        let m = noise(frameCount * 0.05 + 100) * 30;
+        document.getElementById('vu-nature').style.width = n + "%";
+        document.getElementById('vu-mic').style.width = m + "%";
+        
+        if (isStreaming) {
+            document.getElementById('cpu-val').innerText = (noise(frameCount * 0.1) * 4 + 2).toFixed(1) + "%";
+        }
+    }
+</script>
+
+</body>
+</html>

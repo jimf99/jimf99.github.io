@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncPoint MultiViewer - 16:9 Reference</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        :root {
+            --obs-bg: #050505;
+            --panel: #1a1a1c;
+            --btn-idle: #333;
+            --btn-pvw: #2ecc71;
+            --btn-pgm: #e74c3c;
+            --accent: #00ff41;
+        }
+
+        body { 
+            background: var(--obs-bg); color: #fff; 
+            font-family: 'Segoe UI', sans-serif; margin: 0; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; min-height: 100vh; overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        #system-header {
+            width: 1280px; display: flex; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 10px; padding: 0 10px;
+        }
+        .brand { font-weight: 800; font-size: 24px; letter-spacing: -1px; color: #eee; }
+        .brand span { color: var(--btn-pgm); }
+        .sys-info { font-family: monospace; font-size: 10px; color: #666; text-align: right; }
+
+        #canvas-wrapper { 
+            border: 4px solid #1a1a1a; 
+            box-shadow: 0 0 60px rgba(0,0,0,1);
+            background: #000;
+            line-height: 0;
+        }
+
+        #switcher {
+            margin-top: 20px; width: 1280px; background: var(--panel);
+            border-radius: 8px; border: 1px solid #444;
+            padding: 20px; display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 30px;
+            box-sizing: border-box;
+        }
+
+        .switcher-section { display: flex; flex-direction: column; gap: 15px; }
+        .section-label { font-size: 10px; color: #777; font-weight: bold; letter-spacing: 1px; }
+
+        .button-row { display: flex; gap: 15px; }
+        .atem-btn {
+            width: 50px; height: 50px; border-radius: 50%; border: 3px solid #111;
+            background: var(--btn-idle); cursor: pointer; box-shadow: 0 4px 0 #000;
+        }
+        .atem-btn.pgm-active { background: var(--btn-pgm); box-shadow: 0 0 15px rgba(231, 76, 60, 0.6); }
+        .atem-btn.pvw-active { background: var(--btn-pvw); box-shadow: 0 0 15px rgba(46, 204, 113, 0.6); }
+
+        .rect-btn { width: 80px; height: 50px; background: #444; border: 1px solid #555; color: white; cursor: pointer; font-weight: bold;}
+
+        #clocks { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 1280px; }
+        .clock-card { background: #111; padding: 10px; border: 1px solid #222; text-align: center; }
+        .time { color: var(--accent); font-family: monospace; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<div id="system-header">
+    <div class="brand">Sync<span>Point</span> MultiViewer</div>
+    <div class="sys-info">RESOLUTION: 1280x720 (16:9)<br>ASPECT LOCK: ENABLED</div>
+</div>
+
+<div id="canvas-wrapper"><div id="p5-holder"></div></div>
+
+<div id="switcher">
+    <div class="switcher-section">
+        <div class="section-label">INPUT BUS</div>
+        <div class="button-row">
+            <button class="atem-btn pgm-active" id="btn-1" onclick="switchInput(1)"></button>
+            <button class="atem-btn" id="btn-2" onclick="switchInput(2)"></button>
+            <button class="atem-btn" id="btn-3" onclick="switchInput(3)"></button>
+            <button class="atem-btn pvw-active" id="btn-4" onclick="switchInput(4)"></button>
+        </div>
+    </div>
+
+    <div class="switcher-section">
+        <div class="section-label">TRANSITION</div>
+        <div style="display: flex; gap: 10px;">
+            <button class="rect-btn" onclick="takeCut()">CUT</button>
+            <button class="rect-btn" style="background:#666" onclick="takeCut()">AUTO</button>
+        </div>
+    </div>
+
+    <div class="switcher-section">
+        <div class="section-label">SIGNAL ANALYSIS</div>
+        <div id="log-box" style="background:#000; padding:10px; border:1px solid #333; font-family:monospace; font-size:10px; color:var(--accent); height: 40px;">
+            > ASPECT RATIO 1.77:1 DETECTED<br>> ALL INPUTS CONFORMED
+        </div>
+    </div>
+</div>
+
+<div id="clocks">
+    <div class="clock-card"><div class="time" id="t1">00:00:00</div><div style="font-size:9px">NEW YORK</div></div>
+    <div class="clock-card"><div class="time" id="t2">00:00:00</div><div style="font-size:9px">LONDON</div></div>
+    <div class="clock-card"><div class="time" id="t3">00:00:00</div><div style="font-size:9px">TOKYO</div></div>
+    <div class="clock-card"><div class="time" id="t4">00:00:00</div><div style="font-size:9px">SYDNEY</div></div>
+</div>
+
+<script>
+    let pgmSource = 1;
+    let pvwSource = 4;
+    let channels = [];
+    let timeStrings = ["", "", "", ""];
+    const labels = ["NEW YORK", "LONDON", "TOKYO", "SYDNEY"];
+
+    function setup() {
+        // Main Canvas: 1280 / 720 = 1.77 (16:9)
+        let cnv = createCanvas(1280, 720);
+        cnv.parent('p5-holder');
+        
+        // Source Buffers: 640 / 360 = 1.77 (16:9)
+        for(let i=0; i<4; i++) {
+            channels[i] = createGraphics(640, 360);
+        }
+    }
+
+    function draw() {
+        background(0);
+        updateClocks();
+        updateDynamicSignals();
+
+        // Quadrant Dimensions (16:9)
+        let qw = 960 / 2; // 480
+        let qh = 540 / 2; // 270 (480x270 is 16:9)
+        
+        // Master Stack Dimensions (16:9)
+        let mw = 320; 
+        let mh = 180; // (320x180 is 16:9)
+
+        // 1. Multi-view Grid (Left 960x540 area)
+        drawMonitorFrame(0, 0, qw, qh, "INPUT 01", "#ffcc00", channels[0]);
+        drawMonitorFrame(qw, 0, qw, qh, "INPUT 02", "#ffcc00", channels[1]);
+        drawMonitorFrame(0, qh, qw, qh, "INPUT 03", "#ffcc00", channels[2]);
+        drawMonitorFrame(qw, qh, qw, qh, "INPUT 04", "#ffcc00", channels[3]);
+
+        // 2. Master Stack (Right 320px column)
+        // Program is top-right, Preview is middle-right
+        drawMonitorFrame(960, 0, mw, mh, "PGM OUT", "#ff0000", channels[pgmSource-1]);
+        drawMonitorFrame(960, mh, mw, mh, "PVW NEXT", "#00ff00", channels[pvwSource-1]);
+        
+        // Technical Info Block (Bottom Right empty space)
+        fill(15); noStroke();
+        rect(960, mh*2, mw, mh);
+        fill(60); textSize(12); textAlign(CENTER, CENTER);
+        text("SYSTEM TELEMETRY\n16:9 REF ACTIVE", 960 + mw/2, mh*2 + mh/2);
+    }
+
+    function updateDynamicSignals() {
+        for(let i=0; i<4; i++) {
+            let pg = channels[i];
+            pg.background(10, 10, 20);
+            pg.push();
+            pg.translate(320, 180); // Center of 640x360
+            
+            pg.noFill(); pg.strokeWeight(4);
+            if(i==0) { pg.stroke(0, 255, 255); pg.ellipse(0,0, (frameCount*4)%500); } 
+            else if(i==1) { pg.stroke(255, 255, 0); pg.rect(-100, -100, 200, 200); pg.rotate(frameCount*0.05); }
+            else if(i==2) { pg.stroke(0, 255, 0); for(let j=0; j<10; j++) pg.line(-320, j*40-180, 320, j*40-180+sin(frameCount*0.1)*50); }
+            else if(i==3) { pg.stroke(200, 100, 255); for(let k=0; k<5; k++) pg.triangle(-50, 50, 0, -50, 50, 50); }
+            pg.pop();
+
+            // BURNT-IN OVERLAY
+            pg.noStroke(); pg.fill(0, 220); pg.rect(20, 20, 180, 60, 8);
+            pg.fill(0, 255, 65); pg.textSize(14); pg.text(labels[i], 35, 42);
+            pg.textSize(24); pg.text(timeStrings[i], 35, 68);
+        }
+    }
+
+    function drawMonitorFrame(x, y, w, h, label, tally, sourceBuffer) {
+        push(); translate(x, y);
+        // Draw the 16:9 source into the 16:9 frame
+        image(sourceBuffer, 4, 4, w-8, h-8);
+        stroke(tally); strokeWeight(4); noFill(); rect(2, 2, w-4, h-4);
+        noStroke(); fill(0, 180); rect(4, h-24, w-8, 20);
+        fill(255); textSize(10); textAlign(LEFT, CENTER); text("  " + label, 10, h-14);
+        pop();
+    }
+
+    function switchInput(n) {
+        pvwSource = n;
+        document.querySelectorAll('.atem-btn').forEach(b => b.classList.remove('pvw-active'));
+        document.getElementById('btn-'+n).classList.add('pvw-active');
+    }
+
+    function takeCut() {
+        pgmSource = pvwSource;
+        document.querySelectorAll('.atem-btn').forEach(b => b.classList.remove('pgm-active'));
+        document.getElementById('btn-'+pgmSource).classList.add('pgm-active');
+    }
+
+    function updateClocks() {
+        let d = new Date(), utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+        const offsets = [-5, 0, 9, 11];
+        offsets.forEach((o, i) => {
+            let nd = new Date(utc + (3600000 * o));
+            timeStrings[i] = nf(nd.getHours(),2)+":"+nf(nd.getMinutes(),2)+":"+nf(nd.getSeconds(),2);
+            document.getElementById('t'+(i+1)).innerText = timeStrings[i];
+        });
+    }
+    setInterval(updateClocks, 1000);
+</script>
+</body>
+</html>
