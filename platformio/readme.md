@@ -4,3 +4,7 @@
   * https://github.com/orgs/platformio/repositories
   * https://github.com/platformio/platform-espressif32
 
+  * Videos / Etc
+  * https://www.youtube.com/watch?v=0poh_2rBq7E
+  * 
+
