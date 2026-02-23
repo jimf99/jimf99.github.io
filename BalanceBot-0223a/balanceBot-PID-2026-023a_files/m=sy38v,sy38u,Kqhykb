@@ -1,0 +1,10 @@
+loaded_h_0(function(_){var window=this;
+_.cQg=class extends _.m{constructor(a){super(a)}};_.dQg=class extends _.m{constructor(a){super(a)}};
+_.ZPg=function(a,b){return _.si(a,3,b)};_.$Pg=function(a,b){return _.Sh(a,2,b)};_.bQg=class extends _.m{constructor(a){super(a)}Aa(a){return _.kj(this,5,_.aQg,a)}};_.aQg=[5,6];
+_.v("Kqhykb");
+var zPz=function(a,b){a=_.$oa(a.getContext(0));try{const c=b();if(c)return _.iqa(c)}finally{_.Lf(a)}},APz=function(a,b){return _.nk(a,1,b)},BPz=class extends _.m{constructor(a){super(a)}},CPz=function(){var a=new _.dQg;var b=new BPz;b=_.Uh(b,2,!0);return _.lj(a,1,[b])};var DPz=!!(_.Bi[69]>>15&1);
+_.eg(class{constructor(){this.Ba=new _.ypa;this.oa=!1;this.logger=null}async canShowPromotion(a){return DPz&&this.oa?Promise.resolve(!1):this.Aa([a]).then(b=>{b=_.ij(b,BPz,1)[0];return!_.A(b,2)})}twc(){this.oa=!0}async Aa(a){var b=(0,_.Uf)(),c=b();b=b(1);try{try{return b(await c(zPz(this.Ba,()=>_.Bpa(_.Epa(_.U_a))))).Aa(APz(new _.cQg,a))}catch(d){b()}return CPz()}finally{c()}}async IWa(a,b){var c=(0,_.Uf)(),d=c();c=c(1);try{try{return c(await d(zPz(this.Ba,()=>_.Bpa(_.Epa(_.U_a))))).IWa(_.$Pg(_.ZPg(new _.bQg,a),
+b))}catch(e){c()}}finally{d()}}async recordPromoShown(a){this.oa=!0;return this.IWa(a,1)}async recordPromoDismissed(a){return this.IWa(a,3)}async recordPromoAccept(a){return this.IWa(a,2)}async renderPromo(a){_.Xg(document.body,"xgssSc",{promoId:a})}},_.X_a);
+_.w();
+});
+// Google Inc.
