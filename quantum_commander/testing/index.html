@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Joystick - Full Interactive Edition</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #0a0a0a; overflow: hidden; touch-action: none; }
+        canvas { border: 2px solid #222; border-radius: 8px; box-shadow: 0 0 30px rgba(0,210,255,0.2); }
+    </style>
+</head>
+<body>
+
+<script>
+// --- Configuration ---
+const mqtt_server = "test.mosquitto.org";
+const mqtt_port = 8081; 
+const myTopic = "p5js/chat/multimode";
+
+// --- State Variables ---
+let client;
+let isConnected = false;
+let isConnecting = false; 
+let lastMessage = "Link Standby...";
+
+// --- Joystick Variables ---
+let joyOrigin;
+let joyPos;
+let joyLimit = 60;
+let isDragging = false;
+let currentDir = "IDLE";
+let actionActive = false;
+let mouseWasOnButton = false; // Tracks if the click started on the button
+
+// --- Button Dimensions ---
+const btnX = 200; // width/2
+const btnY = 510;
+const btnW = 120;
+const btnH = 50;
+
+// --- Keyboard State Tracking ---
+let keysDown = { 'W': false, 'A': false, 'S': false, 'D': false, 'F': false };
+
+// --- Timing Constants ---
+const heartbeatTimeout = 60000; 
+const pingInterval = 20000;      
+const reconnectDelay = 10000;    
+let lastHeartbeatTime = 0;
+let lastPingTime = 0;
+let lastReconnectAttempt = 0;
+
+function setup() {
+    createCanvas(400, 600);
+    joyOrigin = createVector(width/2, 350);
+    joyPos = createVector(width/2, 350);
+    initMQTT();
+}
+
+function initMQTT() {
+    if (isConnecting) return; 
+    isConnecting = true;
+    let clientId = "p5_joy_" + floor(random(1000, 9999));
+    client = new Paho.MQTT.Client(mqtt_server, mqtt_port, clientId);
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+
+    let options = {
+        onSuccess: onConnect,
+        onFailure: onFail,
+        useSSL: true,
+        timeout: 5,
+        keepAliveInterval: 30
+    };
+    client.connect(options);
+}
+
+function draw() {
+    background(15); 
+    checkSystemHealth();
+    drawHeader();
+    
+    updateJoystickLogic();
+    
+    drawJoystickBase(joyOrigin.x, joyOrigin.y);
+    drawJoystickHandle(joyPos.x, joyPos.y);
+    drawActionButton(btnX, btnY, actionActive);
+    renderConsole();
+}
+
+/**
+ * Logical Hitbox check for the Action Button
+ */
+function isMouseOverButton() {
+    return (mouseX > btnX - btnW/2 && 
+            mouseX < btnX + btnW/2 && 
+            mouseY > btnY - btnH/2 && 
+            mouseY < btnY + btnH/2);
+}
+
+function mousePressed() {
+    if (isMouseOverButton()) {
+        actionActive = true;
+        mouseWasOnButton = true;
+        publishMsg("ACTION_ON");
+    }
+}
+
+function mouseReleased() {
+    if (mouseWasOnButton) {
+        actionActive = false;
+        mouseWasOnButton = false;
+        publishMsg("ACTION_OFF");
+    }
+    isDragging = false;
+}
+
+function updateJoystickLogic() {
+    let kbVector = createVector(0, 0);
+    if (keysDown.W) kbVector.y -= 1;
+    if (keysDown.S) kbVector.y += 1;
+    if (keysDown.A) kbVector.x -= 1;
+    if (keysDown.D) kbVector.x += 1;
+
+    if (kbVector.mag() > 0) {
+        isDragging = false; 
+        kbVector.normalize();
+        kbVector.mult(joyLimit);
+        let targetPos = p5.Vector.add(joyOrigin, kbVector);
+        joyPos = p5.Vector.lerp(joyPos, targetPos, 0.3);
+        calculateDirection(kbVector);
+    } 
+    else if (mouseIsPressed && !mouseWasOnButton) {
+        let d = dist(mouseX, mouseY, joyOrigin.x, joyOrigin.y);
+        if (!isDragging && d < joyLimit + 40) isDragging = true;
+
+        if (isDragging) {
+            let v = createVector(mouseX - joyOrigin.x, mouseY - joyOrigin.y);
+            v.limit(joyLimit); 
+            joyPos = p5.Vector.add(joyOrigin, v);
+            calculateDirection(v);
+        }
+    } 
+    else {
+        isDragging = false;
+        joyPos = p5.Vector.lerp(joyPos, joyOrigin, 0.3);
+        
+        if (currentDir !== "IDLE") {
+            currentDir = "IDLE";
+            publishMsg("MOVE_STOP");
+        }
+    }
+}
+
+function calculateDirection(v) {
+    let oldDir = currentDir;
+    let threshold = 15;
+
+    if (v.mag() < threshold) {
+        currentDir = "IDLE";
+    } else {
+        let angle = degrees(v.heading()); 
+        if (angle < 0) angle += 360;
+
+        if (angle > 337.5 || angle <= 22.5)      currentDir = "RIGHT";
+        else if (angle > 22.5  && angle <= 67.5)  currentDir = "BACKWARD_RIGHT";
+        else if (angle > 67.5  && angle <= 112.5) currentDir = "BACKWARD";
+        else if (angle > 112.5 && angle <= 157.5) currentDir = "BACKWARD_LEFT";
+        else if (angle > 157.5 && angle <= 202.5) currentDir = "LEFT";
+        else if (angle > 202.5 && angle <= 247.5) currentDir = "FORWARD_LEFT";
+        else if (angle > 247.5 && angle <= 292.5) currentDir = "FORWARD";
+        else if (angle > 292.5 && angle <= 337.5) currentDir = "FORWARD_RIGHT";
+    }
+
+    if (currentDir !== oldDir) {
+        publishMsg("MOVE_" + currentDir);
+    }
+}
+
+// --- Input Event Listeners ---
+
+function keyPressed() {
+    let k = key.toUpperCase();
+    if (keysDown[k] !== undefined) {
+        keysDown[k] = true;
+        if (k === 'F') { actionActive = true; publishMsg("ACTION_ON"); }
+    }
+}
+
+function keyReleased() {
+    let k = key.toUpperCase();
+    if (keysDown[k] !== undefined) {
+        keysDown[k] = false;
+        if (k === 'F') { actionActive = false; publishMsg("ACTION_OFF"); }
+    }
+}
+
+// --- Visual Helpers ---
+
+function drawJoystickBase(x, y) {
+    noStroke();
+    fill(30);
+    ellipse(x, y, joyLimit * 2.5);
+    stroke(50);
+    strokeWeight(2);
+    noFill();
+    ellipse(x, y, joyLimit * 2);
+    stroke(40);
+    line(x - joyLimit, y, x + joyLimit, y);
+    line(x, y - joyLimit, x, y + joyLimit);
+}
+
+function drawJoystickHandle(x, y) {
+    noStroke();
+    fill(0, 200, 255, 30);
+    ellipse(x, y, 70);
+    fill(isConnected ? color(0, 150, 255) : 80);
+    stroke(255);
+    strokeWeight(3);
+    ellipse(x, y, 50);
+    fill(255, 150);
+    noStroke();
+    ellipse(x - 8, y - 8, 15, 10);
+}
+
+function drawActionButton(x, y, active) {
+    push();
+    translate(x, y);
+    // Visual feedback for hovering or active state
+    if (active) fill(255, 50, 50);
+    else if (isMouseOverButton()) fill(60);
+    else fill(40);
+    
+    stroke(255);
+    rectMode(CENTER);
+    rect(0, 0, btnW, btnH, 10);
+    fill(active ? 255 : 200);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(18);
+    text("ACTION (F)", 0, 0);
+    pop();
+}
+
+function drawHeader() {
+    fill(25);
+    noStroke();
+    rect(0, 0, width, 80);
+    textAlign(CENTER);
+    fill(0, 200, 255);
+    textSize(24);
+    text("QUANTUM COMMANDER", width / 2, 40);
+    textSize(11);
+    fill(isConnected ? color(0, 255, 100) : color(255, 50, 50));
+    text(isConnected ? "● TELEMETRY LINK ACTIVE" : "○ LINK DISCONNECTED", width/2, 65);
+}
+
+function renderConsole() {
+    fill(5);
+    rect(20, 100, 360, 90, 5);
+    fill(0, 255, 0);
+    textAlign(LEFT);
+    textFont('Courier New');
+    textSize(13);
+    text("> HEADING: " + currentDir, 35, 125);
+    text("> ACTION:  " + (actionActive ? "ENGAGED" : "READY"), 35, 145);
+    text("> BROKER:  " + lastMessage, 35, 165);
+}
+
+function checkSystemHealth() {
+    let now = millis();
+    if (isConnected && (now - lastHeartbeatTime > pingInterval)) {
+        if (now - lastPingTime > pingInterval) {
+            publishMsg("~ping~"); 
+            lastPingTime = now;
+        }
+    }
+    if (!isConnected && !isConnecting && (now - lastReconnectAttempt > reconnectDelay)) {
+        lastReconnectAttempt = now;
+        initMQTT();
+    }
+}
+
+function onConnect() {
+    isConnected = true;
+    isConnecting = false;
+    lastHeartbeatTime = millis();
+    client.subscribe(myTopic);
+}
+
+function onFail(err) { isConnected = false; isConnecting = false; }
+function onConnectionLost(res) { isConnected = false; isConnecting = false; }
+
+function onMessageArrived(msg) {
+    lastMessage = msg.payloadString.toUpperCase().substring(0, 20);
+    lastHeartbeatTime = millis();
+}
+
+function publishMsg(txt) {
+    if (isConnected) {
+        let message = new Paho.MQTT.Message(txt);
+        message.destinationName = myTopic;
+        message.qos = 0; 
+        client.send(message);
+    }
+}
+</script>
+
+</body>
+</html>
