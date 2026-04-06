@@ -7,7 +7,6 @@
 * R.E.S.P.E.C.T. (Respect is important, for a better World/Universe)
 
 ## Free Shared Classroom
-* [ https://classroom.google.com/c/Nzk2OTk2NzQ3ODQz
-](https://classroom.google.com/c/Nzk2OTk2NzQ3ODQz?cjc=yjndushq)*
-
+* When in session.
+  
 (c) CopyLeft 2026
