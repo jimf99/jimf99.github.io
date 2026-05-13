@@ -9,4 +9,4 @@
 ## Free Shared Classroom
 * When in session.
   
-(c) CopyLeft 2026
+(c) CopyLeft 2026 to Infinity and Beyond
