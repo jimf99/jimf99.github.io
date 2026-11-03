@@ -8,4 +8,8 @@
 <li>https://github.com/makerspet</li>
 <li>https://makerspet.com/store/</li>
 </ul>
+  <hr>
+  <ul>
+<li>https://dronebotworkshop.com/esp32-ota/</li>
+</ul>
 
