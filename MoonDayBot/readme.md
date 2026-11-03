@@ -1,4 +1,4 @@
-<h1>Moon Day Bot<h1>
+<h1>Moon Day Bot<h1>  
   <h2>Inspiration</h2>
   <h3>https://flightmuseum.com/events/moonday/</h3>
   <h3>https://www.dprg.org/dprg-monthly-meeting-learning-to-program-a-robot-using-ai-10-24-2026/</h3>
