@@ -1,4 +1,4 @@
-## S.T.R.E.A.M.
+## S.T.R.E.A.M.  
 
 ## S.T.R.E.A.M. Overview
 * S = Science, T=Technology, R=Respect, A=Arts, M=Music
